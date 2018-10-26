@@ -35,7 +35,6 @@
                      @include('admin.pages.notification')
                   </div>
                   <input type="text" class="form-control"  name="parent_id" value="{{ Request::segment(3) }}">
-                  <div class="loader"  id="loadingmessage" style="display:none"></div>
                   <div class="form-group">
                      <label> Video Url</label>
                      <div class="input-group">
@@ -60,6 +59,14 @@
                      </div>
                   </div>
             </div>
+            <center>
+                <div  id="loadingmessage" style="display:none;height:300px">
+                           Please wait... 
+                            <img src="{{asset('public/images/loading.gif')}}" />
+            
+               </div> 
+            </center>
+
             <button type="button" id="btnSubmit" class="btn btn-block btn-primary">Submit</button>
          </div>
          <!-- /.box-body -->
@@ -98,8 +105,8 @@
                       var id="{{ Request::segment(3)  }}";
                       $('#loadingmessage').hide();
                       alert("Successfully Added");
-                      //window.location.href = "{{ url('admin/videogallery') }}"+"/"+id;
-                      window.location.href = "{{ url('admin/videolist') }}";
+                      window.location.href = "{{ url('admin/videogallery') }}"+"/"+id;
+                     // window.location.href = "{{ url('admin/videolist') }}";
                   }if(response.status='0')
                   {
                    $("#validation-errors").show();

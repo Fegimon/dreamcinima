@@ -58,7 +58,13 @@
 
                   </div>
                  
-                    <div class="loader"  id="loadingmessage" style="display:none"></div>
+                  <center>
+                        <div  id="loadingmessage" style="display:none;height:300px">
+                                Please wait... 
+                                    <img src="{{asset('public/images/loading.gif')}}" />
+                    
+                         </div> 
+                    </center>
             </div>
             <div class="row">
             <div class="col-md-12" id="result_images"></div>

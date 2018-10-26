@@ -20,6 +20,7 @@
                 <th>S.No</th>
                            <th>Title</th>
                            <th>Description</th>
+                           <th>Category</th>
                            <th>Image</th>
                            <th>Cast Name</th>
                            <th>Director Name</th>
@@ -40,6 +41,7 @@
                            <td>{{++$i}}</td>
                            <td>{{ $val->title}}</td>
                            <td>{{ $val->video_description}}</td>
+                           <td>{{$val->category}}</td>
                            <td><img src="{{ asset('public/upload/gallery/thumbnail/'.$val->thumb_image) }}" width="40px"></td>
                            <td>{{ $val->cast_name}}</td>
                            <td>{{ $val->director_name}}</td>

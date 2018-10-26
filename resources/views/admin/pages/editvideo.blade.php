@@ -29,8 +29,22 @@
 
                      </div>
                </div>
-               <!-- /.form group -->
-               <!-- Date mm/dd/yyyy -->
+               <div class="form-group">
+               <label>Category</label>
+
+                  <div class="input-group">
+                     <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                     </div>
+                     <select class="form-control select2 accordion--form__text required" id="category" name="category" required>
+                        <option value="parent" selected="selected">Select </option>
+                        <option value="<?php echo $video->category;?>" <?php echo ($video->category) ? ' selected="selected"' : '';?>><?php echo $video->category;?></option>
+                        @foreach ($category as $val)
+                        <option value="{{$val->category_name}}">{{$val->category_name}}</option>
+                        @endforeach
+                     </select>
+                     </div>
+               </div>
                <div class="form-group">
                <label>Description</label>
 
