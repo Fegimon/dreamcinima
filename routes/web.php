@@ -84,11 +84,17 @@ Route::group(['prefix' => 'admin'], function(){
     Route::post('addbanners','AdminController@addbanners');
     Route::get('bannerlist','HomeController@bannerlist');
     Route::get('banneredit/{id}','AdminController@banneredit');
+    Route::get('bannerdelete/{id}','AdminController@bannerdelete');
+
 
 
     Route::get('videogallery/{id}','HomeController@videogallery');
     Route::post('uploadgallery/{id}','AdminController@uploadgallery');
     Route::get('gallerylist/{id}','HomeController@gallerylist');
+    Route::post('deleteimages','AdminController@deleteimages');
+    Route::post('deletevideolist','AdminController@deletevideolist');
+
+
 
 
 
