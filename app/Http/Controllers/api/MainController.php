@@ -32,14 +32,14 @@ class MainController extends Controller
                     
                 ];
                 //dd($input);
-                $verifyUser = DB::table('dream_user')->where('email',$input['email'])->where('phone',$input['phone'])->first();
+                $verifyUser = DB::table('admin')->where('email',$input['email'])->where('phone',$input['phone'])->first();
                if(empty($verifyUser))
                {
                 $rules = array(
                     'name' => 'required', 
                     'email' => 'required|email', 
                     'phone' => 'required', 
-                    'password' => 'required', 
+                    'password' => 'required|alphaNum|min:6' ,
                     'c_password' => 'required|same:password',
                     
                 );
@@ -60,7 +60,7 @@ class MainController extends Controller
                         'status'=>1
                     );
                     $userid = $this->register->saveUser($userInput);
-                    $userrs = DB::table('dream_user')->where('id',$userid)->first();
+                    $userrs = DB::table('admin')->where('id',$userid)->first();
                     if ($userrs) { 
                         return Response::json([
                             'status' => 1,
@@ -86,7 +86,7 @@ class MainController extends Controller
     {
         header('Access-Control-Allow-Origin: *');
         $data = $request->all();
-        $user = DB::table('dream_user')->where('email',$data['email'])->first();
+        $user = DB::table('admin')->where('email',$data['email'])->first();
         if(!empty($user))
         { 
         if ($user && Hash::check(Input::get('password'), $user->password)) {

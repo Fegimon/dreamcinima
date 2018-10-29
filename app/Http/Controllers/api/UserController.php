@@ -28,7 +28,10 @@ public $successStatus = 200;
             //return response()->json(['success' => $user], $this-> successStatus); 
         } 
         else{ 
-            return response()->json(['error'=>'Unauthorised'], 401); 
+            return Response::json([
+                'status'  => 0,
+                'message' => 'Incorrect Username or Password',
+            ], 400);
         } 
     }
 
@@ -38,7 +41,7 @@ public $successStatus = 200;
         $validator = Validator::make($request->all(), [ 
             'name' => 'required', 
             'email' => 'required|email', 
-            'password' => 'required', 
+            'password' => 'required|alphaNum|min:6' ,
             'c_password' => 'required|same:password', 
         ]);
            if ($validator->fails()) 
@@ -46,6 +49,9 @@ public $successStatus = 200;
             return response()->json(['error'=>$validator->errors()], 401);            
         }
         $input = $request->all(); 
+        $verifyUser = DB::table('users')->where('email',$input['email'])->where('phone',$input['phone'])->first();
+        if(empty($verifyUser))
+        {
         $input['password'] = bcrypt($input['password']); 
         $user = User::create($input); 
         //$success['token'] =  $user->createToken('MyApp')-> accessToken; 
@@ -56,9 +62,15 @@ public $successStatus = 200;
             ], 200);} else {
             return Response::json([
                 'status'  => 0,
-                'message' => 'user not fount',
+                'message' => 'Please Provide Valid Details',
             ], 400);
         }
+       }else{
+        return Response::json([
+            'status'  => 0,
+            'message' => 'Already User Register',
+        ], 400);
+       }
         // $success['name'] =  $user->name;
         // return response()->json(['success'=>$success], $this-> successStatus); 
     }
