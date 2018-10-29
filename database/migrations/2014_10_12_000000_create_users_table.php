@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('gender')->nullable();
             $table->string('address')->nullable();
             $table->string('subscription')->nullable();
+            $table->date('subscribe_expiredate')->nullable();
             $table->string('password')->nullable();
             $table->tinyInteger('status')->default('1');
             $table->rememberToken();
