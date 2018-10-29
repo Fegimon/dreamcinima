@@ -83,7 +83,7 @@ class AdminController extends Controller
                     'address' => $input['address'],
                     'subscription' => $input['subscription'],
                     'status' => 1,
-                    'password' => 123456,
+                    //'password' => 123456,
                 ]);
                if ($userid) {
                    
