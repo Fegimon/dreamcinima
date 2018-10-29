@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use DB;
 use Response;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
+
 class UserController extends Controller 
 {
 public $successStatus = 200;
@@ -53,9 +56,23 @@ public $successStatus = 200;
         if(empty($verifyUser))
         {
         $input['password'] = bcrypt($input['password']); 
-        $user = User::create($input); 
+        //$user = User::create($input); 
+        $date=Carbon::now()->toDateString();
+        //dd($date);
+        $user=  User::create([
+            'name' => $input['name'],
+            'email' => $input['email'],
+            'phone' => $input['phone'],
+            'subscribe_expiredate' =>Carbon::now()->toDateString(),
+            'status' => 1,
+            'password' => Hash::make($input['password']),
+        ]);
         //$success['token'] =  $user->createToken('MyApp')-> accessToken; 
-        if ($user) {
+        $date = array(
+            'subscribe_expiredate'=>Carbon::now()->toDateString(),
+        );
+        $updatedate = DB::table('users')->where('id',$user->id)->update($date);
+        if ($updatedate) {
             return Response::json([
                 'status' => 1,
                 'data'   => $user,
