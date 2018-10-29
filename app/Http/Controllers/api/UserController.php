@@ -3,13 +3,21 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request; 
 use App\Http\Controllers\Controller; 
 use App\User; 
+use App\Models\Register;
 use Illuminate\Support\Facades\Auth; 
 use Validator;
 use DB;
 use Response;
+use Carbon\Carbon;
+
+
 class UserController extends Controller 
 {
 public $successStatus = 200;
+
+        public function __construct() {
+            $this->register = new Register();
+        }
 
     public function login(){ 
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')]))
@@ -25,6 +33,11 @@ public $successStatus = 200;
     public function register(Request $request) 
     { 
         //dd('user');
+        $input = $request->all(); 
+
+        $verifyUser = DB::table('dream_user')->where('email',$input['email'])->where('phone',$input['phone'])->first();
+        if(empty($verifyUser))
+        {
         $validator = Validator::make($request->all(), [ 
             'name' => 'required', 
             'email' => 'required|email', 
@@ -37,20 +50,25 @@ public $successStatus = 200;
         }
         $input = $request->all(); 
         $input['password'] = bcrypt($input['password']); 
-        $user = User::create($input); 
+        $userrs = array(
+            'name'=>$input['name'],
+            'email'=>$input['email'],
+            'phone'=>$input['phone'],
+            'password'=>$input['password'],
+            'subscribe_expiredate'=>Carbon::now()->toDateString(),
+        );
+        $user = DB::table('dream_user')->insertGetId($userrs); 
         //$success['token'] =  $user->createToken('MyApp')-> accessToken; 
         if ($user) {
-            return Response::json([
-                'status' => 1,
-                'data'   => $user,
-            ], 200);} else {
-            return Response::json([
-                'status'  => 0,
-                'message' => 'user not fount',
-            ], 400);
+            return response()->json(['status' => 'success','userdata' => $user], $this-> successStatus);
+        } else {
+            return response()->json(['status' => 'Data not found','userdata' => ''], $this-> successStatus);
+
         }
-        // $success['name'] =  $user->name;
-        // return response()->json(['success'=>$success], $this-> successStatus); 
+    }else{
+        return response()->json(['status' => 'User Already Registered','userdata' => ''], $this-> successStatus);
+    }
+         
     }
 
     public function details() 

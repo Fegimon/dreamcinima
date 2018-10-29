@@ -39,7 +39,7 @@ class AdminController extends Controller
                
             ];
             //dd($input);
-            $verifyuser = DB::table('users')->where('email',$input['email'])->where('phone',$input['phone'])->first();
+            $verifyuser = DB::table('dream_user')->where('email',$input['email'])->where('phone',$input['phone'])->first();
             //dd($verifyuser);
             if(empty($verifyuser)){
                 //dd($verifyuser);
@@ -61,20 +61,7 @@ class AdminController extends Controller
                 ->withInput()
                 ->withErrors($data);
             } else { 
-               
-                // $userInput = array(
-                //     'id' => $input['id'],
-                //     'name' => $input['name'],
-                //     'email' => $input['email'],
-                //     'phone'=>$input['phone'],
-                //     'dob' => $input['dob'],
-                //     'gender' => $input['gender'],
-                //     'address' => $input['address'],
-                //     'subscription' => $input['subscription'],
-                //     'status'=>1
-                // );
-                //$userid = $this->admin->saveUser($userInput);
-                $userid = User::create([
+                $userid = array(
                     'name' => $input['name'],
                     'email' => $input['email'],
                     'phone' => $input['phone'],
@@ -84,8 +71,10 @@ class AdminController extends Controller
                     'subscription' => $input['subscription'],
                     'status' => 1,
                     //'password' => 123456,
-                ]);
-               if ($userid) {
+                );
+                $user = DB::table('dream_user')->insertGetId($userid); 
+
+               if ($user) {
                    
                 return redirect('admin/userlist');
                 } else {

@@ -36,12 +36,12 @@ class HomeController extends Controller
     }
     public function userlist()
     {
-        $userrs = DB::table('users')->where('status',1)->get();
+        $userrs = DB::table('dream_user')->where('status',1)->get();
         return view('admin.pages.userlist')->with('userrs',$userrs);
     }
     public function edituser($id)
     {
-        $userrs = DB::table('users')->where('id',$id)->first();
+        $userrs = DB::table('dream_user')->where('id',$id)->first();
         return view('admin.pages.edituser')->with('userrs',$userrs);
     }
 

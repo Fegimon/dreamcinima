@@ -55,14 +55,8 @@ class AdminController extends Controller
 
 
             if (Auth::attempt($userdata)) {
-               // dd('4');
-                //dd($verifyuser);
-                    // if($verifyuser->role_id==2){
-                    //         return redirect('staff/dashboard');
-                    //     }
-                       // if($verifyuser){
-                            return redirect('admin/dashboard');
-                        //}
+              
+                 return redirect('admin/dashboard');
 
             } else {        
                 // dd('5');
