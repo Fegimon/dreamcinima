@@ -36,21 +36,15 @@ Route::group(['prefix' => 'admin'], function(){
     Route::post('videobyid', 'api\UserController@videobyid');
     Route::post('videobycategory', 'api\UserController@videobycategory');
     Route::post('categorybyparent', 'api\UserController@categorybyparent');
+
+    Route::post('paymentdetails', 'api\PaymentController@paymentdetails');
+    Route::post('getpaymentdetails', 'api\PaymentController@getpaymentdetails');
+
     Route::post('usergift', 'api\PaymentController@usergift');
     Route::post('getusergift', 'api\PaymentController@getusergift');
-
-
-
-
-
-
-
-
-
-
-
 
 
 Route::group(['middleware' => 'auth:api'], function(){
 // Route::post('login', 'api\UserController@login');
 });
+  

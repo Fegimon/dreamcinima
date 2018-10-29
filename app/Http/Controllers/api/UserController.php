@@ -7,9 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use DB;
 use Response;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Hash;
-
 class UserController extends Controller 
 {
 public $successStatus = 200;
@@ -18,23 +15,10 @@ public $successStatus = 200;
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')]))
         { 
             $user = Auth::user(); 
-            if ($user) {
-                return Response::json([
-                    'status' => 1,
-                    'data'   => $user,
-                ], 200);} else {
-                return Response::json([
-                    'status'  => 0,
-                    'message' => 'user not fount',
-                ], 400);
-            }
-            //return response()->json(['success' => $user], $this-> successStatus); 
+            return response()->json(['loggedstatus' => 'success','userdata' => $user], $this-> successStatus); 
         } 
         else{ 
-            return Response::json([
-                'status'  => 0,
-                'message' => 'Incorrect Username or Password',
-            ], 400);
+            return response()->json(['loggedstatus' => 'invalid','userdata' => ''], $this-> successStatus); 
         } 
     }
 
@@ -44,7 +28,7 @@ public $successStatus = 200;
         $validator = Validator::make($request->all(), [ 
             'name' => 'required', 
             'email' => 'required|email', 
-            'password' => 'required|alphaNum|min:6' ,
+            'password' => 'required', 
             'c_password' => 'required|same:password', 
         ]);
            if ($validator->fails()) 
@@ -52,42 +36,19 @@ public $successStatus = 200;
             return response()->json(['error'=>$validator->errors()], 401);            
         }
         $input = $request->all(); 
-        $verifyUser = DB::table('users')->where('email',$input['email'])->where('phone',$input['phone'])->first();
-        if(empty($verifyUser))
-        {
         $input['password'] = bcrypt($input['password']); 
-        //$user = User::create($input); 
-        $date=Carbon::now()->toDateString();
-        //dd($date);
-        $user=  User::create([
-            'name' => $input['name'],
-            'email' => $input['email'],
-            'phone' => $input['phone'],
-            'subscribe_expiredate' =>Carbon::now()->toDateString(),
-            'status' => 1,
-            'password' => Hash::make($input['password']),
-        ]);
+        $user = User::create($input); 
         //$success['token'] =  $user->createToken('MyApp')-> accessToken; 
-        $date = array(
-            'subscribe_expiredate'=>Carbon::now()->toDateString(),
-        );
-        $updatedate = DB::table('users')->where('id',$user->id)->update($date);
-        if ($updatedate) {
+        if ($user) {
             return Response::json([
                 'status' => 1,
                 'data'   => $user,
             ], 200);} else {
             return Response::json([
                 'status'  => 0,
-                'message' => 'Please Provide Valid Details',
+                'message' => 'user not fount',
             ], 400);
         }
-       }else{
-        return Response::json([
-            'status'  => 0,
-            'message' => 'Already User Register',
-        ], 400);
-       }
         // $success['name'] =  $user->name;
         // return response()->json(['success'=>$success], $this-> successStatus); 
     }
