@@ -6,6 +6,8 @@ use App\Models\Register;
 use Illuminate\Support\Facades\Auth; 
 use Validator;
 use DB;
+use Hash;
+use Input;
 use Response;
 
 class MainController extends Controller 
@@ -84,21 +86,27 @@ class MainController extends Controller
     {
         header('Access-Control-Allow-Origin: *');
         $data = $request->all();
-        //dd($user);
-        $user = DB::table('dream_user')->where('email',$data['email'])->where('password',bcrypt($data['password']))->first();     
-        dd($user);
-        if ($user== "") {
+        $user = DB::table('dream_user')->where('email',$data['email'])->first();
+        if(!empty($user))
+        { 
+        if ($user && Hash::check(Input::get('password'), $user->password)) {
+            return Response::json([
+                'status' => 1,
+                'uid'=>$user->id,
+                'name'=>$user->name,
+                    ], 200);
+          }else{
+            return Response::json([
+                'status' => 0,
+                'message' => 'Please Provide Valid Details',
+                    ], 400);
+          }
+        }   
+       else {
             return Response::json([
                         'status' => 0,
-                        'message' => 'Please Provide Valid Details',
+                        'message' => 'User Not Register',
                             ], 400);
-        } else {
-            return Response::json([
-                        'status' => 1,
-                        'uid'=>$user->id,
-                        'name'=>$user->name,
-                        //'role_id'   => $user->role_id
-                            ], 200);
         }
     }
 }
