@@ -15,20 +15,10 @@ public $successStatus = 200;
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')]))
         { 
             $user = Auth::user(); 
-            if ($user) {
-                return Response::json([
-                    'status' => 1,
-                    'data'   => $user,
-                ], 200);} else {
-                return Response::json([
-                    'status'  => 0,
-                    'message' => 'user not fount',
-                ], 400);
-            }
-            //return response()->json(['success' => $user], $this-> successStatus); 
+            return response()->json(['loggedstatus' => 'success','userdata' => $user], $this-> successStatus); 
         } 
         else{ 
-            return response()->json(['error'=>'Unauthorised'], 401); 
+            return response()->json(['loggedstatus' => 'invalid','userdata' => ''], $this-> successStatus); 
         } 
     }
 
