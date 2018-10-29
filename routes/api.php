@@ -16,17 +16,19 @@ use Illuminate\Http\Request;
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
-Route::group(['prefix' => 'user'], function(){
-    Route::post('register', 'api\MainController@userregister');
-    Route::post('login', 'api\MainController@login');
+
+   
+    Route::post('register', 'api\UserController@register');
+    Route::post('login', 'api\UserController@login');
 
 
-});
 
 
 Route::group(['prefix' => 'admin'], function(){
-    Route::post('register', 'api\UserController@register');
-    Route::post('login', 'api\UserController@login');
+    Route::post('register', 'api\MainController@userregister');
+    Route::post('login', 'api\MainController@login');
+});
+
     Route::get('details', 'api\UserController@details');
     Route::get('getcategory', 'api\UserController@getcategory');
     Route::post('categorybyid', 'api\UserController@categorybyid');
@@ -35,7 +37,14 @@ Route::group(['prefix' => 'admin'], function(){
     Route::post('videobycategory', 'api\UserController@videobycategory');
     Route::post('categorybyparent', 'api\UserController@categorybyparent');
 
-});
+   
+    
+    Route::post('usergift', 'api\PaymentController@usergift');
+    Route::post('getusergift', 'api\PaymentController@getusergift');
+
+
+
+
 
 
 

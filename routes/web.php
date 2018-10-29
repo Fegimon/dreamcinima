@@ -29,14 +29,10 @@ Route::post('/login', 'Auth\AdminController@login')->name('login.submit');
 Route::post('/register', 'Auth\AdminController@register');
 
 Route::get('/logout', function() {
-    //dd('logout');
-    // Session::forget('key');
-    //  if(!Session::has('key'))
-    //   {
         auth()->logout();
          return redirect('/');
-    //   }
     });
+
 
 Route::group(['prefix' => 'admin'], function(){
     Route::get('dashboard','HomeController@dashboard');
@@ -47,8 +43,6 @@ Route::group(['prefix' => 'admin'], function(){
     Route::post('edituser','AdminController@edituser');
     Route::get('deleteuser/{id}','HomeController@deleteuser');
     Route::get('viewuser/{id}','HomeController@viewuser');
-
-
 
 
     Route::get('addcategory','HomeController@addcategory');
@@ -64,8 +58,6 @@ Route::group(['prefix' => 'admin'], function(){
     Route::get('viewvideo/{id}','HomeController@viewvideo');
 
 
-
-    
     Route::get('bannercategory','HomeController@bannercategory');
     Route::post('addbannercategory','AdminController@addbannercategory');
     Route::get('editbanner/{id}','AdminController@editbanner');
@@ -87,24 +79,11 @@ Route::group(['prefix' => 'admin'], function(){
     Route::get('bannerdelete/{id}','AdminController@bannerdelete');
 
 
-
     Route::get('videogallery/{id}','HomeController@videogallery');
     Route::post('uploadgallery/{id}','AdminController@uploadgallery');
     Route::get('gallerylist/{id}','HomeController@gallerylist');
     Route::post('deleteimages','AdminController@deleteimages');
     Route::post('deletevideolist','AdminController@deletevideolist');
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 });
