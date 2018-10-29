@@ -36,9 +36,6 @@ Route::group(['prefix' => 'admin'], function(){
     Route::post('videobyid', 'api\UserController@videobyid');
     Route::post('videobycategory', 'api\UserController@videobycategory');
     Route::post('categorybyparent', 'api\UserController@categorybyparent');
-
-   
-    
     Route::post('usergift', 'api\PaymentController@usergift');
     Route::post('getusergift', 'api\PaymentController@getusergift');
 
