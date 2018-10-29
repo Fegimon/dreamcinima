@@ -24,7 +24,7 @@ class Admin extends Model
         }
     }
     public function updateUser($input) {        
-        $query = DB::table('users');
+        $query = DB::table('dream_user');
         if ($input['id']) {
     
             $input['updated_at'] = Carbon::now()->toDateTimeString();
