@@ -20,6 +20,7 @@ class CreateUserGiftTable extends Migration
             $table->string('transaction_id');
             $table->string('address');
             $table->string('user_preference');
+            $table->string('subcription')->nullable();
             $table->string('delivery_status')->nullable();
             $table->string('delivery_comments')->nullable();
             $table->string('shipping_info')->nullable();
