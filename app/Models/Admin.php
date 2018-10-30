@@ -113,4 +113,15 @@ class Admin extends Model
             return $result;
         }
     }
+
+    public function searchSubscription($startdate,$enddate)
+    {
+        $result = DB::table('subscribe_history')
+                ->select('subscribe_history.*','dream_user.name','dream_user.email','paymentdetails.payment_amount')
+                ->join('dream_user','dream_user.id','=','subscribe_history.user_id')
+                ->join('paymentdetails','paymentdetails.user_id','=','subscribe_history.user_id')
+                ->whereBetween('subscribe_date', [$startdate, $enddate])
+                ->get();
+        return $result;
+    }
 }
