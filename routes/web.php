@@ -89,6 +89,12 @@ Route::group(['prefix' => 'admin'], function(){
     Route::get('viewpayment/{id}','HomeController@viewpayment');
     Route::get('deletpayment/{id}','HomeController@deletpayment');
 
+    Route::get('subscriptionlist','HomeController@subscriptionlist');
+    Route::post('searchsubscription','AdminController@searchsubscription');
+    Route::get('viewsubscription/{id}','HomeController@viewsubscription');
+
+
+
 
 
 
