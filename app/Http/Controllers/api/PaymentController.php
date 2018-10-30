@@ -151,6 +151,7 @@ class PaymentController extends Controller
                 'email' => isset($data['email']) ? $data['email'] : '',
                 'transaction_id' => isset($data['transaction_id']) ? $data['transaction_id'] : '',
                 'address' => isset($data['address']) ? $data['address'] : '',
+                'subcription' => isset($data['subcription']) ? $data['subcription'] : '',
                 'user_preference' => isset($data['user_preference']) ? $data['user_preference'] : '',
                 'delivery_status' => isset($data['delivery_status']) ? $data['delivery_status'] : '',
                 'delivery_comments' => isset($data['delivery_comments']) ? $data['delivery_comments'] : '',
@@ -165,9 +166,6 @@ class PaymentController extends Controller
                 'user_id' => 'required',
                 'email' => 'required',
                 'transaction_id' => 'required',
-                // 'paymentapplied' => 'required',
-                // 'datarecived' => 'required',
-                // 'amount' => 'required',
                
             );
             $checkValid = Validator::make($input, $rules);
@@ -184,6 +182,7 @@ class PaymentController extends Controller
                     'email' => $input['email'],
                     'address' => $input['address'],
                     'transaction_id'=>$input['transaction_id'],
+                    'subcription' => $input['subcription'],
                     'user_preference' => $input['user_preference'],
                     'delivery_status' => $input['delivery_status'],
                     'delivery_comments' => $input['delivery_comments'],
