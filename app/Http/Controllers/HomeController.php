@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -227,4 +228,30 @@ class HomeController extends Controller
             return redirect('admin/paymentdetails');
         }
     }
+    public function subscriptionlist()
+    {
+        $date = Carbon::now()->toDateString();
+        
+        $paymentrs = DB::table('subscribe_history')
+                    ->select('subscribe_history.*','dream_user.name','dream_user.email','paymentdetails.payment_amount')
+                    ->join('dream_user','dream_user.id','=','subscribe_history.user_id')
+                    ->join('paymentdetails','paymentdetails.user_id','=','subscribe_history.user_id')
+                    ->where('subscribe_history.subscribe_date','=',$date)
+                    ->get();
+        //dd($paymentrs);
+        return view('admin.pages.subscriptionlist')->with('paymentrs',$paymentrs);
+    }
+
+    public function viewsubscription($id)
+    {
+        $paymentrs = DB::table('subscribe_history')
+                    ->select('subscribe_history.*','dream_user.name','dream_user.email','paymentdetails.payment_amount')
+                    ->join('dream_user','dream_user.id','=','subscribe_history.user_id')
+                    ->join('paymentdetails','paymentdetails.user_id','=','subscribe_history.user_id')
+                    ->where('subscribe_history.id','=',$id)
+                    ->first();
+        //dd($paymentrs);
+        return view('admin.pages.viewsubscription')->with('paymentrs',$paymentrs);
+    }
+
 }

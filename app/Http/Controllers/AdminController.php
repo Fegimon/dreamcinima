@@ -737,9 +737,8 @@ class AdminController extends Controller
                     return redirect('videolist')->with(['data', $data], ['warning', $data]);
                     }
         } 
-        public function deleteimages(Request $request,$id)
-        {
-            
+    public function deleteimages(Request $request,$id)
+    {  
            $data=$request->all();
            
            foreach($data as $images)
@@ -762,7 +761,28 @@ class AdminController extends Controller
             else{
                 return redirect('admin/banners');
             }
-        }    
+    }   
+    
+    public function searchsubscription(Request $request)
+    {
+        $data =$request->all();
+        $startdate = $data['start'];
+        $enddate = $data['finish'];
+
+        $searchrs = $this->admin->searchSubscription($startdate,$enddate);
+       // dd($searchrs);
+
+        if ($searchrs) {
+            return Response::json([
+                'status' => 1,
+                'data'   => $searchrs,
+            ], 200);} else {
+            return Response::json([
+                'status'  => 0,
+                'message' => 'category not fount',
+            ], 200);
+        }
+    }
  }
 
     
