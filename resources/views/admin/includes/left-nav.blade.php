@@ -85,11 +85,20 @@
             <li><a href="{{url('admin/banners')}}"><i class="fa fa-circle-o"></i>Banners</a></li>
           </ul>
         </li>
-        <li >
-          <a href="{{url('admin/paymentdetails')}}">
-            <i class="fa fa-dashboard"></i> <span>Payment Details</span>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-table"></i>
+            <span>Payment Details</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
+          <ul class="treeview-menu">
+            <li><a href="{{url('admin/paymentdetails')}}"><i class="fa fa-circle-o"></i> Payment History</a></li>
+            <li><a href="{{url('admin/subscriptionlist')}}"><i class="fa fa-circle-o"></i>Subscription Details</a></li>
+          </ul>
         </li>
+        
         <!-- <li class="treeview">
           <a href="#">
             <i class="fa fa-laptop"></i>
