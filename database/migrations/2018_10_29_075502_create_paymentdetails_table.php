@@ -20,8 +20,6 @@ class CreatePaymentdetailsTable extends Migration
             $table->string('payment_method');
             $table->string('transaction_id');
             $table->string('payment_status');
-            $table->string('payment_date');
-            $table->string('payment_time');
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });
