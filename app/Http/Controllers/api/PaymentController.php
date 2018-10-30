@@ -54,7 +54,7 @@ class PaymentController extends Controller
                     'id' => $input['id'],
                     'user_id' => $input['user_id'],
                     'payment_amount' => $input['payment_amount'],
-                    'payment_method'=> $input['payment_method'],
+                    'payment_method'=> $input['payment_method'],     
                     'transaction_id'=>$input['transaction_id'],
                     'payment_status' => $input['payment_status'],
                     'status'=>1,
@@ -88,10 +88,11 @@ class PaymentController extends Controller
                          $paymentlogs=DB::table('payment_logs')->insertGetId($logs);
                         if ($paymentlogs) {
                    
-                            return Response::json([
-                                'status' => 1,
-                                'user_id' => $input['user_id'],
-                                    ], 200);
+                            // return Response::json([
+                            //     'status' => 1,
+                            //     'user_id' => $input['user_id'],
+                            //         ], 200);
+                            return redirect('http://dreamcinemas.in/paytm/paytm_succes.php');
                             } else {
                                 return Response::json([
                                             'status' => 0,
@@ -99,24 +100,23 @@ class PaymentController extends Controller
                                                 ], 200);
                             }
                     }
+                    if($paymentstatus=='failure')
+                    {
+                        return redirect('http://dreamcinemas.in/paytm/paytm_failed.php');
+                    } else {
+                        return Response::json([
+                                    'status' => 0,
+                                    'message' => ''
+                                              ], 200);
+                    
+                    }
                
-               if ($paymentid) {
-                   
-                return Response::json([
-                    'status' => 1,
-                    'payment_id' => $paymentid
-                        ], 200);
-                } else {
-                    return Response::json([
-                                'status' => 0,
-                                'message' => 'Please provide valid details'
-                                    ], 200);
-                }
-            }
+               
+      }
         } else {
             return Response::json([
                         'status' => 0,
-                        'message' => "No User data"
+                        'message' => "No User data (^_^)"
             ]);
         }
      }
