@@ -82,7 +82,7 @@ Route::group(['prefix' => 'admin'], function(){
     Route::get('videogallery/{id}','HomeController@videogallery');
     Route::post('uploadgallery/{id}','AdminController@uploadgallery');
     Route::get('gallerylist/{id}','HomeController@gallerylist');
-    Route::post('deleteimages','AdminController@deleteimages');
+    Route::post('deleteimages/{id}','AdminController@deleteimages');
     Route::post('deletevideolist','AdminController@deletevideolist');
 
 
