@@ -69,6 +69,7 @@
             <li><a href="{{url('admin/videolist')}}"><i class="fa fa-circle-o"></i> Video List</a></li>
           </ul>
         </li> 
+
        
        
         <li class="treeview">
@@ -83,6 +84,11 @@
             <li><a href="{{url('admin/bannercategory')}}"><i class="fa fa-circle-o"></i> Banners Category</a></li>
             <li><a href="{{url('admin/banners')}}"><i class="fa fa-circle-o"></i>Banners</a></li>
           </ul>
+        </li>
+        <li >
+          <a href="{{url('admin/paymentdetails')}}">
+            <i class="fa fa-dashboard"></i> <span>Payment Details</span>
+          </a>
         </li>
         <!-- <li class="treeview">
           <a href="#">

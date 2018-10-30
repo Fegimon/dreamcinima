@@ -20,7 +20,7 @@
           <!-- small box -->
           <div class="small-box bg-aqua">
             <div class="inner">
-              <h3>150</h3>
+              <h3>{{$usercount}}</h3>
 
               <p>Users</p>
             </div>
@@ -35,7 +35,7 @@
           <!-- small box -->
           <div class="small-box bg-green">
             <div class="inner">
-              <h3>53<sup style="font-size: 20px"></sup></h3>
+              <h3>{{$categorycount}}<sup style="font-size: 20px"></sup></h3>
 
               <p>Category</p>
             </div>
@@ -50,7 +50,7 @@
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">
-              <h3>44</h3>
+              <h3>{{$bannerscount}}</h3>
 
               <p>Banners</p>
             </div>
