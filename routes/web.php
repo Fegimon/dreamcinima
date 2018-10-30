@@ -85,5 +85,11 @@ Route::group(['prefix' => 'admin'], function(){
     Route::post('deleteimages/{id}','AdminController@deleteimages');
     Route::post('deletevideolist','AdminController@deletevideolist');
 
+    Route::get('paymentdetails','HomeController@paymentdetails');
+    Route::get('viewpayment/{id}','HomeController@viewpayment');
+    Route::get('deletpayment/{id}','HomeController@deletpayment');
+
+
+
 
 });
