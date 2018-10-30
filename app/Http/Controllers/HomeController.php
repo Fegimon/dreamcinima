@@ -142,7 +142,9 @@ class HomeController extends Controller
     }
     public function addvideo()
     {
-        return view('admin.pages.createvideo');
+        $category = DB::table('category')->get();
+
+        return view('admin.pages.createvideo')->with('category',$category);
     }
     public function videoadd($id)
     {
@@ -150,15 +152,16 @@ class HomeController extends Controller
     }
     public function videogallery($id)
     {
-        $images = DB::table('video-details')->where('id',$id)->get();
-        //dd($video);
-        return view('admin.pages.videogallery')->with('images',$images);
+        $video = DB::table('videos')->where('video_id',$id)->where('status',1)->get();
+         //dd($video);
+        return view('admin.pages.videogallery')->with('video',$video);
     }
     public function editvideo($id)
     {
         $video = DB::table('video-details')->where('id',$id)->first();
+        $category = DB::table('category')->get();
         //dd($video);
-        return view('admin.pages.editvideo')->with('video',$video);
+        return view('admin.pages.editvideo')->with('video',$video)->with('category',$category);
     }
     public function deletevideo($id)
     {
@@ -179,28 +182,7 @@ class HomeController extends Controller
     }
     public function gallerylist($id)
     {
-        $images = DB::table('gallery')
-        ->select('gallery.gallery')
-        ->where('parent_id',$id)->get();
-       // print_r($images);die;
-        //dd($images);
-        //$list =  explode(',',$gallery);
-        //$img= $images['gallery'];
-        // $gallery=array();
-        // foreach ($images as $values){
-        //     $img= $values->gallery;
-        //     $list =  explode(',',$img);
-        //     $gallery[]=$list;
-        // }
-        // $gallery=array();
-        // foreach ($images as $key=>$value)
-        //     {
-        //         $img= $value->gallery;
-        //         //dd($img);
-        //         $gallery[$key] =  $value;
-        //         $gallery[$key]->imglist = explode(',',$img);
-        //     }
-        //dd($list);
+        $images = DB::table('gallery')->where('video_id',$id)->where('status',1)->get();
         return view('admin.pages.gallerylist')->with('gallery',$images);
     }
 }

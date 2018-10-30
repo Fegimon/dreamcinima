@@ -81,7 +81,7 @@ public $successStatus = 200;
 
     public function details() 
     { 
-        $user = DB::table('users')->get(); 
+        $user = DB::table('dream_user')->get(); 
         //dd($user);
         return response()->json(['success' => $user], $this-> successStatus); 
     } 

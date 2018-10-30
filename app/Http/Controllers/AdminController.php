@@ -368,6 +368,7 @@ class AdminController extends Controller
                 'id' => isset($data['id']) ? $data['id'] : false,
                 'title' => isset($data['title']) ? $data['title'] : '',
                 'video_description' => isset($data['video_description']) ? $data['video_description'] : '',
+                'category' => isset($data['category']) ? $data['category'] : '',
                 'thumb_image' => isset($data['thumb_image']) ? $data['thumb_image'] : '',
                 'cast_name' => isset($data['cast_name']) ? $data['cast_name'] : '',
                 'director_name' => isset($data['director_name']) ? $data['director_name'] : '',
@@ -419,6 +420,7 @@ class AdminController extends Controller
                     'id'=>$input['id'],
                     'title' => $input['title'],
                     'video_description' => $input['video_description'],
+                    'category'=>$input['category'],
                     'thumb_image'=>$thumbimage,
                     'cast_name' => $input['cast_name'],
                     'director_name' => $input['director_name'],
@@ -432,7 +434,7 @@ class AdminController extends Controller
                     'id'=>$input['id'],
                     'title' => $input['title'],
                     'video_description' => $input['video_description'],
-                    //'thumb_image'=>$thumbimage,
+                    'category'=>$input['category'],
                     'cast_name' => $input['cast_name'],
                     'director_name' => $input['director_name'],
                     'musicdirector' => $input['musicdirector'],
@@ -463,7 +465,6 @@ class AdminController extends Controller
         }
         
     }
-
     public function addbanners(Request $request)
     {
         $data=$request->all();
@@ -638,60 +639,65 @@ class AdminController extends Controller
                 }
             }
 
-    public function videoadd(Request $request)
-    {
-        $data=$request->all();
-       //dd($data);
-        $input = [
-            'id' => isset($data['id']) ? $data['id'] : false,
-            'parent_id' => isset($data['parent_id']) ? $data['parent_id'] : '',
-            'video_url' => isset($data['video_url']) ? $data['video_url'] : '',
-            'video' => isset($data['video']) ? $data['video'] : '', 
-        ];
-      
-        if(!empty($input['video']))
-        {
-             if($request->ajax('video'))
-             {
-            $file = $request->file('video');
-            //dd($file);
-            $filename = $request->file('video')->getClientOriginalExtension();
-            //dd($filename);
-            $rand=substr(number_format(time() * rand(), 0, '', ''), 0, 4);
-            $video = 'Video' . '-' . $rand . '.' . $filename;
-            $videoPath =$request->file('video')->move(public_path() . '/upload/videos', $video);
-            } 
-        }
-        if(!empty($input['video_url'])){
-            $video=$input['video_url'];
-
-        }
-           
-                $dataInput = array(
-                    'id' => $input['id'],
-                    'parent_id' => $input['parent_id'],
-                    'video' => $video,
-                    'status'=>1
-                );
-          
-                //dd($dataInput);
-                $bannerid = $this->admin->addvideo($dataInput);
-               if ($bannerid) {
-                   return Response::json([
-                                'status' => 1,
-                                'message' => 'Successfully Added'
-                                    ], 200);
-                     //return redirect('admin/videolist');
-                } else {
-                    // return Response::json([
-                    //             'status' => 0,
-                    //             'message' => 'Please provide valid details'
-                    //                 ], 400);
-                    $data = Session::flash('warning', 'Something Error Occured!');
-                    return redirect('banners')->with(['data', $data], ['warning', $data]);
+            public function videoadd(Request $request)
+            {
+                $data=$request->all();
+               //dd($data);
+                $input = [
+                    'id' => isset($data['id']) ? $data['id'] : false,
+                    'parent_id' => isset($data['parent_id']) ? $data['parent_id'] : '',
+                    'video_url' => isset($data['video_url']) ? $data['video_url'] : '',
+                    'video' => isset($data['video']) ? $data['video'] : '', 
+                ];
+              
+                if(!empty($input['video']))
+                {
+                     if($request->ajax('video'))
+                     {
+                    $file = $request->file('video');
+                    //dd($file);
+                    $filename = $request->file('video')->getClientOriginalExtension();
+                    //dd($filename);
+                    $rand=substr(number_format(time() * rand(), 0, '', ''), 0, 4);
+                    $video = 'Video' . '-' . $rand . '.' . $filename;
+                    $videoPath =$request->file('video')->move(public_path() . '/upload/videos', $video);
+                    } 
+        
+                    $dataInput = array(
+                        'id' => $input['id'],
+                        'video_id' => $input['parent_id'],
+                        'video' => $video,
+                        'status'=>1
+                    );
+                    $videoid = $this->admin->addvideo($dataInput);
                 }
-            }
-
+                if(!empty($input['video_url']))
+                {
+                    $video=$input['video_url'];
+                        $dataInput = array(
+                            'id' => $input['id'],
+                            'video_id' => $input['parent_id'],
+                            'video_url' => $video,
+                            'status'=>1
+                        );
+                        $videoid = $this->admin->addvideo($dataInput);
+                }
+                       if ($videoid) {
+                           return Response::json([
+                                        'status' => 1,
+                                        'message' => 'Successfully Added'
+                                            ], 200);
+                             //return redirect('admin/videolist');
+                        } else {
+                            // return Response::json([
+                            //             'status' => 0,
+                            //             'message' => 'Please provide valid details'
+                            //                 ], 400);
+                            $data = Session::flash('warning', 'Something Error Occured!');
+                            return redirect('banners')->with(['data', $data], ['warning', $data]);
+                        }
+                    }
+        
             public function uploadgallery(Request $request)
             {
                 $parentid=$request->segment(3);
@@ -702,32 +708,34 @@ class AdminController extends Controller
                 ];
                 if(isset($_FILES['file']['name'][0])) 
                 { 
-                $images=array();
-                foreach($_FILES['file']['name'] as $keys => $values) 
-                { 
-                $SourcePath = $_FILES['file']['tmp_name'][$keys]; 
-                $img=$_FILES['file']['type'][$keys];
-                $ext = strtolower(substr(strrchr($values, '.'), 1));
-                //dd($ext);
-                $rand=substr(number_format(time() * rand(), 0, '', ''), 0, 4);
-                $name = 'image' . '-' . $rand . '.' . $ext;
-                //dd($name);
-                $TargetPath = public_path().'/upload/gallery/' . $name; 
-                $imagepath=move_uploaded_file($SourcePath, $TargetPath); 
-                $images[]=$name;
-                } 
-                //dd($images);
+                // $images=array();
+                    foreach($_FILES['file']['name'] as $keys => $values) 
+                    { 
+                        $SourcePath = $_FILES['file']['tmp_name'][$keys]; 
+                        $img=$_FILES['file']['type'][$keys];
+                        $ext = strtolower(substr(strrchr($values, '.'), 1));
+                        //dd($ext);
+                        $rand=substr(number_format(time() * rand(), 0, '', ''), 0, 4);
+                        $name = 'image' . '-' . $rand . '.' . $ext;
+                        //dd($name);
+                        $TargetPath = public_path().'/upload/gallery/' . $name; 
+                        $imagepath=move_uploaded_file($SourcePath, $TargetPath); 
+                        //$images[]=$name;
+        
+                            $dataInput = array(
+                                'id' => $input['id'],
+                                'video_id' => $parentid,
+                                'gallery' => $name,
+                                'status'=>1
+                            );
+                        //dd($dataInput);
+                        $bannerid = $this->admin->savegallery($dataInput);
+                    } 
+                
                 }
-                $dataInput = array(
-                    'id' => $input['id'],
-                    'parent_id' => $parentid,
-                    'gallery' => implode(",",$images),
-                    'status'=>1
-                );
-                //dd($dataInput);
-                $bannerid = $this->admin->savegallery($dataInput);
-               if ($bannerid) {
-                   return Response::json([
+                
+                if ($bannerid) {
+                    return Response::json([
                                 'status' => 1,
                                 'message' => 'Successfully Added'
                                     ], 200);
@@ -738,7 +746,7 @@ class AdminController extends Controller
                     //                 ], 400);
                     $data = Session::flash('warning', 'Something Error Occured!');
                     return redirect('videolist')->with(['data', $data], ['warning', $data]);
-                 }
+                    }
                 } 
                
  }
