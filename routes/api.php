@@ -25,7 +25,7 @@ use Illuminate\Http\Request;
 
 
 Route::group(['prefix' => 'admin'], function(){
-    Route::post('register', 'api\MainController@userregister');
+    Route::post('register', 'api\MainController@register');
     Route::post('login', 'api\MainController@login');
 });
 
