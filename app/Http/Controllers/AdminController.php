@@ -736,8 +736,33 @@ class AdminController extends Controller
                     $data = Session::flash('warning', 'Something Error Occured!');
                     return redirect('videolist')->with(['data', $data], ['warning', $data]);
                     }
-                } 
+        } 
+        public function deleteimages(Request $request,$id)
+        {
+            
+           $data=$request->all();
+           
+           foreach($data as $images)
+           {
+               $img=$images['value'];
+               $image = array(
                
+                'status'=>0,
+                'updated_at' => date("Y-m-d H:i:s")
+              );
+            $updateimages=DB::table('gallery')->where('id', $img)->update($image);
+              
+           }
+            if($updateimages){
+                return Response::json([
+                    'status' => 1,
+                    'message' => 'Successfully Added'
+                        ], 200);
+            }
+            else{
+                return redirect('admin/banners');
+            }
+        }    
  }
 
     
