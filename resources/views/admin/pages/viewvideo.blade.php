@@ -17,6 +17,7 @@
       <div class="row invoice-info">
         <div class="col-sm-4 invoice-col">
         <strong> Title</strong><br><br>
+        <strong> Category</strong><br><br>
         <strong>Description</strong><br><br>
         <strong> Cast Name</strong><br><br>
         <strong> Director Name</strong><br><br>
@@ -27,6 +28,7 @@
         <!-- /.col -->
         <div class="col-sm-4 invoice-col">
         {{$video->title}}  <br><br>
+        {{$video->category}}  <br><br>
         {{$video->video_description}}   <br><br>
         {{$video->cast_name}}   <br><br>
         {{$video->director_name}}   <br><br>
