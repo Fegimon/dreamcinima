@@ -28,7 +28,14 @@ class HomeController extends Controller
     }
     public function dashboard()
     {
-        return view('admin.pages.dashboard');
+        $usercount = DB::table('dream_user')->where('status',1)->count();
+        $categorycount = DB::table('category')->where('status',1)->count();
+        $bannerscount = DB::table('banners')->where('status',1)->count();
+
+
+
+        return view('admin.pages.dashboard')->with('usercount',$usercount)->with('categorycount',$categorycount)
+        ->with('bannerscount',$bannerscount);
     }
     public function adduser()
     {
@@ -184,5 +191,40 @@ class HomeController extends Controller
     {
         $images = DB::table('gallery')->where('video_id',$id)->where('status',1)->get();
         return view('admin.pages.gallerylist')->with('gallery',$images);
+    }
+    public function paymentdetails()
+    {
+        $paymentrs = DB::table('paymentdetails')
+                ->select('paymentdetails.*','dream_user.name')
+                ->join('dream_user','dream_user.id','=','paymentdetails.user_id')
+                ->where('paymentdetails.status',1)
+                ->get();
+        //dd($paymentrs);
+        return view('admin.pages.paymentdetailslist')->with('paymentrs',$paymentrs);
+    }
+    public function viewpayment($id)
+    {
+        $paymentrs = DB::table('paymentdetails')
+                ->select('paymentdetails.*','dream_user.name')
+                ->join('dream_user','dream_user.id','=','paymentdetails.user_id')
+                ->first();
+        return view('admin.pages.viewpayment')->with('paymentrs',$paymentrs);
+    }
+    public function deletpayment($id)
+    {
+        //dd($id);
+        $payment = array(
+           
+            'status'=>0,
+            'updated_at' => date("Y-m-d H:i:s")
+        );
+        $updatepayment=DB::table('paymentdetails')->where('id', $id)->update($payment);
+
+        if($updatepayment){
+            return redirect('admin/paymentdetails ');
+        }
+        else{
+            return redirect('admin/paymentdetails');
+        }
     }
 }
