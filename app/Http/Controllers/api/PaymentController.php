@@ -95,7 +95,7 @@ class PaymentController extends Controller
                                 return Response::json([
                                             'status' => 0,
                                             'message' => 'Please provide valid details'
-                                                ], 400);
+                                                ], 200);
                             }
                     }
                
@@ -109,7 +109,7 @@ class PaymentController extends Controller
                     return Response::json([
                                 'status' => 0,
                                 'message' => 'Please provide valid details'
-                                    ], 400);
+                                    ], 200);
                 }
             }
         } else {
@@ -133,7 +133,7 @@ class PaymentController extends Controller
             return Response::json([
                 'status'  => 0,
                 'message' => 'paymentdetails   not fount',
-            ], 400);
+            ], 200);
         }
     }
 
@@ -174,7 +174,7 @@ class PaymentController extends Controller
                 return Response::json([
                             'status' => 0,
                             'message' => $checkValid->errors()->all()
-                                ], 400);
+                                ], 200);
             } else { 
                
                 $paymentInput = array(
@@ -203,7 +203,7 @@ class PaymentController extends Controller
                     return Response::json([
                                 'status' => 0,
                                 'message' => 'Please provide valid details'
-                                    ], 400);
+                                    ], 200);
                 }
             }
         } else {
@@ -226,7 +226,7 @@ class PaymentController extends Controller
             return Response::json([
                 'status'  => 0,
                 'message' => 'usergift   not fount',
-            ], 400);
+            ], 200);
         }
     }
 }

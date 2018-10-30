@@ -86,7 +86,7 @@ class MainController extends Controller
         $data = $request->all();
         //dd($user);
         $user = DB::table('dream_user')->where('email',$data['email'])->where('password',bcrypt($data['password']))->first();     
-        dd($user);
+        //dd($user);
         if ($user== "") {
             return Response::json([
                         'status' => 0,

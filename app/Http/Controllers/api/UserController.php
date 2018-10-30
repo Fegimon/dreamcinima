@@ -3,12 +3,12 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request; 
 use App\Http\Controllers\Controller; 
 use App\User; 
-use App\Models\Register;
 use Illuminate\Support\Facades\Auth; 
 use Validator;
 use DB;
 use Response;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 
 
 class UserController extends Controller 
@@ -16,20 +16,28 @@ class UserController extends Controller
 public $successStatus = 200;
 
         public function __construct() {
-            $this->register = new Register();
+           // $this->register = new Register();
         }
 
-    public function login(){ 
-        if(Auth::attempt(['email' => request('email'), 'password' => request('password')]))
+    public function login(Request $request)
+    {
+        header('Access-Control-Allow-Origin: *');
+        $data = $request->all();
+        //dd($user);
+        $user = DB::table('dream_user')->where('email',$data['email'])->first();
+        if(!empty($user))
         { 
-            $user = Auth::user(); 
-            return response()->json(['loggedstatus' => 'success','userdata' => $user], $this-> successStatus); 
-        } 
-        else{ 
-            return response()->json(['loggedstatus' => 'invalid','userdata' => ''], $this-> successStatus); 
-        } 
+            if ($user && Hash::check($data['password'], $user->password)) 
+            {
+                return response()->json(['loggedstatus' => 'success','userdata' => $user], $this-> successStatus); 
+            }else{
+                return response()->json(['loggedstatus' => 'invalid','userdata' => ''], $this-> successStatus); 
+            }
+        }else{
+            return response()->json(['loggedstatus' => 'User Not Registered','userdata' => ''], $this-> successStatus);
+        }
+        
     }
-
     public function register(Request $request) 
     { 
         //dd('user');
@@ -96,7 +104,7 @@ public $successStatus = 200;
             return Response::json([
                 'status'  => 0,
                 'message' => 'category not fount',
-            ], 400);
+            ], 200);
         }
     } 
     public function getvideo() 
@@ -110,7 +118,7 @@ public $successStatus = 200;
             return Response::json([
                 'status'  => 0,
                 'message' => 'video not fount',
-            ], 400);
+            ], 200);
         }
     } 
     public function videobyid(Request $request) 
@@ -125,7 +133,7 @@ public $successStatus = 200;
             return Response::json([
                 'status'  => 0,
                 'message' => 'video not fount',
-            ], 400);
+            ], 200);
         }
     } 
     public function videobycategory(Request $request) 
@@ -140,7 +148,7 @@ public $successStatus = 200;
             return Response::json([
                 'status'  => 0,
                 'message' => 'video not fount',
-            ], 400);
+            ], 200);
         }
     }
     public function categorybyparent(Request $request) 
@@ -155,7 +163,7 @@ public $successStatus = 200;
             return Response::json([
                 'status'  => 0,
                 'message' => 'category not fount',
-            ], 400);
+            ], 200);
         }
     }  
 
