@@ -27,13 +27,11 @@ class PaymentController extends Controller
                 'payment_amount' => isset($data['payment_amount']) ? $data['payment_amount'] : '',
                 'payment_method' => isset($data['payment_method']) ? $data['payment_method'] : '',
                 'transaction_id' => isset($data['transaction_id']) ? $data['transaction_id'] : '',
-                'payment_date' => isset($data['payment_date']) ? $data['payment_date'] : '',
-                'payment_time' => isset($data['payment_time']) ? $data['payment_time'] : '',
                 'payment_status' => isset($data['payment_status']) ? $data['payment_status'] : '',
             
                 
             ];
-            $verifyUser = DB::table('users')->where('id',$input['user_id'])->first();
+            $verifyUser = DB::table('dream_user')->where('id',$input['user_id'])->first();
             if(!empty($verifyUser))
             {
 
@@ -58,8 +56,6 @@ class PaymentController extends Controller
                     'payment_amount' => $input['payment_amount'],
                     'payment_method'=> $input['payment_method'],
                     'transaction_id'=>$input['transaction_id'],
-                    'payment_date' => $input['payment_date'],
-                    'payment_time' => $input['payment_time'],
                     'payment_status' => $input['payment_status'],
                     'status'=>1,
                    
@@ -67,22 +63,27 @@ class PaymentController extends Controller
                //dd($paymentInput);
                 $paymentid = $this->payment->savePayment($paymentInput);
                 $verifyStatus = DB::table('paymentdetails')->where('id',$paymentid)->first();
-                $getUser=DB::table('users')->where('id',$input['user_id'])->first();
+                $getUser=DB::table('dream_user')->where('id',$input['user_id'])->first();
                 $paymentstatus=$verifyStatus->payment_status;
                     if($paymentstatus=='success')
                     {
                         $status = array(
                             'subscription' =>1,
                             'subscribe_expiredate'=>Carbon::now()->addMonths(1),
+                            'updated_at'=>Carbon::now()->toDateTimeString(),
                         );
-                        $updatestatus = DB::table('users')->where('id',$input['user_id'])->update($status);
+                        $updatestatus = DB::table('dream_user')->where('id',$input['user_id'])->update($status);
                         $history = array(
                             'user_id'=>$input['user_id'],
                             'subscribe_date'=>Carbon::now()->toDateString(),
+                            'updated_at'=>Carbon::now()->toDateTimeString(),
+
                         );
                          $addhistory=DB::table('subscribe_history')->insertGetId($history);
                          $logs = array(
                             'user_id'=>$input['user_id'],
+                            'updated_at'=>Carbon::now()->toDateTimeString(),
+
                         );
                          $paymentlogs=DB::table('payment_logs')->insertGetId($logs);
                         if ($paymentlogs) {
@@ -124,7 +125,7 @@ class PaymentController extends Controller
     public function getpaymentdetails(Request $request) 
     { 
         $id=$request->id;
-        $paymentdetails = DB::table('paymentdetails')->where('id',$id)->first(); 
+        $paymentdetails = DB::table('paymentdetails')->where('user_id',$id)->first(); 
         if ($paymentdetails) {
             return Response::json([
                 'status' => 1,
@@ -217,7 +218,7 @@ class PaymentController extends Controller
     public function getusergift(Request $request) 
     { 
         $id=$request->id;
-        $usergift = DB::table('user_gift')->where('id',$id)->first(); 
+        $usergift = DB::table('user_gift')->where('user_id',$id)->first(); 
         if ($usergift) {
             return Response::json([
                 'status' => 1,

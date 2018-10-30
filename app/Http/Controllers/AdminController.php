@@ -595,17 +595,6 @@ class AdminController extends Controller
             'parent_id' => isset($data['parent_id']) ? $data['parent_id'] : '',
             'gallery' => isset($data['gallery']) ? $data['gallery'] : '', 
         ];
-      
-        // if ($request->hasFile('thumb_image')) {
-        //     $image = $request->file('thumb_image')->getClientOriginalExtension();
-        //     $rand=substr(number_format(time() * rand(), 0, '', ''), 0, 4);
-        //     $imageName = 'image' . '-' . $rand . '.' . $image;
-        //     $imagePath = $request->file('thumb_image')->move(public_path() . '/upload/videos', $imageName);
-        //     $img = Image::make($imagePath->getRealPath()); 
-        // }
-        // else{
-        //     $imageName= '';
-        // } 
         $images=array();
         if($files=$request->file('gallery')){
             foreach($files as $file){

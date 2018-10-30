@@ -7,14 +7,17 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use DB;
 use Response;
+use Illuminate\Support\Facades\Hash;
 
 class MainController extends Controller 
 {
+    public $successStatus = 200;
+
     public function __construct() {
         $this->register = new Register();
     }
 
-    public function userregister(Request $request) 
+    public function register(Request $request) 
     { 
          $data=$request->all();
                 //dd($data);
@@ -30,7 +33,7 @@ class MainController extends Controller
                     
                 ];
                 //dd($input);
-                $verifyUser = DB::table('dream_user')->where('email',$input['email'])->where('phone',$input['phone'])->first();
+                $verifyUser = DB::table('users')->where('email',$input['email'])->where('phone',$input['phone'])->first();
                if(empty($verifyUser))
                {
                 $rules = array(
@@ -58,7 +61,7 @@ class MainController extends Controller
                         'status'=>1
                     );
                     $userid = $this->register->saveUser($userInput);
-                    $userrs = DB::table('dream_user')->where('id',$userid)->first();
+                    $userrs = DB::table('users')->where('id',$userid)->first();
                     if ($userrs) { 
                         return Response::json([
                             'status' => 1,
@@ -69,7 +72,7 @@ class MainController extends Controller
                         return Response::json([
                             'status' => 0,
                             'message' => 'Please provide valid details'
-                                ], 400);    
+                                ], 200);    
                     }
                  }
                 } else {
@@ -85,20 +88,18 @@ class MainController extends Controller
         header('Access-Control-Allow-Origin: *');
         $data = $request->all();
         //dd($user);
-        $user = DB::table('dream_user')->where('email',$data['email'])->where('password',bcrypt($data['password']))->first();     
-        //dd($user);
-        if ($user== "") {
-            return Response::json([
-                        'status' => 0,
-                        'message' => 'Please Provide Valid Details',
-                            ], 400);
-        } else {
-            return Response::json([
-                        'status' => 1,
-                        'uid'=>$user->id,
-                        'name'=>$user->name,
-                        //'role_id'   => $user->role_id
-                            ], 200);
+        $user = DB::table('users')->where('email',$data['email'])->first();
+        if(!empty($user))
+        { 
+            if ($user && Hash::check($data['password'], $user->password)) 
+            {
+                return response()->json(['loggedstatus' => 'success','userdata' => $user], $this-> successStatus); 
+            }else{
+                return response()->json(['loggedstatus' => 'invalid','userdata' => ''], $this-> successStatus); 
+            }
+        }else{
+            return response()->json(['loggedstatus' => 'User Not Registered','userdata' => ''], $this-> successStatus);
         }
+        
     }
 }
