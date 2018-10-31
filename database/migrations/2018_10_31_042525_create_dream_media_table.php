@@ -18,8 +18,8 @@ class CreateDreamMediaTable extends Migration
             $table->string('media_title');
             $table->string('media_desc');
             $table->string('media_url');
-            $table->string('media_thumb');
-            $table->string('media_image');
+            $table->string('media_thumb')->nullable();
+            $table->string('media_image')->nullable();
             $table->tinyInteger('showin_home')->default('0');
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
