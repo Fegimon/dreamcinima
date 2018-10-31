@@ -17,7 +17,7 @@
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                <th>S.No</th>
+                          <th>S.No</th>
                            <th>Title</th>
                            <th>Description</th>
                            <th>Url</th>
@@ -43,8 +43,8 @@
                            <td><img src="{{ asset('public/upload/media/original/'.$val->media_image) }}" width="40px"></td>
                            <td><img src="{{ asset('public/upload/media/thumbnail/'.$val->media_thumb) }}" width="40px"></td>
                            <td>{{ $val->media_type}}</td>
-                           <td><a href="{{ url('admin/viewvideo/'.$val->id) }}"  class="btn btn-gradient-ibiza waves-effect waves-light m-1 .btn-small" > <i class="fa fa-edit"></i> <span>View</span></a></td>
-                           <td><a href="{{ url('admin/editvideo/'.$val->id) }}"  class="btn btn-gradient-ibiza waves-effect waves-light m-1 .btn-small" > <i class="fa fa-edit"></i> <span>Edit</span></a></td>
+                           <td><a href="{{ url('admin/viewmedia/'.$val->id) }}"  class="btn btn-gradient-ibiza waves-effect waves-light m-1 .btn-small" > <i class="fa fa-edit"></i> <span>View</span></a></td>
+                           <td><a href="{{ url('admin/editmedia/'.$val->id) }}"  class="btn btn-gradient-ibiza waves-effect waves-light m-1 .btn-small" > <i class="fa fa-edit"></i> <span>Edit</span></a></td>
                            <td><button type="button" class="btn btn-gradient-forest waves-effect waves-light m-1 delete" data-id="{{ $val->id }}" > <i class="fa fa fa-trash-o"></i> <span>Delete</span> </button></td>
                         </tr>
                         @endforeach
@@ -85,7 +85,7 @@
    //alert('alert');
     var $this = $(this);
     var id = $this.attr('data-id');
-    var url = "{{ url('admin/deletevideo') }}"+"/"+id;
+    var url = "{{ url('admin/deletemedia') }}"+"/"+id;
     //alert(url);
     window.location.href = url;
   });

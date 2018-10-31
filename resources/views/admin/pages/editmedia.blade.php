@@ -11,6 +11,8 @@
                <!-- Date dd/mm/yyyy -->
                <form action="{{url('admin/addmedia')}}" id="mediaForm" method="post" enctype="multipart/form-data">
                {{ csrf_field() }}
+               <input type="hidden" class="form-control" value="{{$mediars->id}}" name="id" data-mask placeholder="Media Title" required>
+
                        <div class="flash-message">
                               @include('admin.pages.notification')
                         </div>
@@ -58,6 +60,7 @@
                      </div>
                      <select class="form-control select2 accordion--form__text required" id="media_type" name="media_type" required>
                         <option selected="selected">Select </option>
+                        <option value="<?php echo $mediars->media_type;?>" <?php echo ($mediars->media_type) ? ' selected="selected"' : '';?>><?php echo $mediars->media_type;?></option>
                         <option value="audio">Audio</option>
                         <option value="video">Video</option>
                         <option value="trailler">Trailler</option>
@@ -67,21 +70,25 @@
                </div>
                <div class="form-group">
                   <label>Media Thumb:</label>
+                  <img src="{{ asset('public/upload/media/thumbnail/'.$mediars->media_thumb) }}" width="90px">
+
                   <div class="input-group">
                      <div class="input-group-addon">
                         <i class="fa fa-laptop"></i>
                      </div>
-                     <input type="file" class="form-control" id="media_thumb" name="media_thumb" data-mask placeholder=" Address" required>
+                     <input type="file" class="form-control" id="media_thumb" name="media_thumb" data-mask placeholder=" Address">
 
                   </div>
                </div>
                <div class="form-group">
                   <label>Media Image:</label>
+                  <img src="{{ asset('public/upload/media/original/'.$mediars->media_image) }}" width="90px">
+
                   <div class="input-group">
                      <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                      </div>
-                     <input type="file" class="form-control" id="media_image" name="media_image" required>
+                     <input type="file" class="form-control" id="media_image" name="media_image" >
                   </div>
                </div>
             
