@@ -100,6 +100,13 @@ Route::group(['prefix' => 'admin'], function(){
     Route::get('deletemedia/{id}','HomeController@deletemedia');
     Route::get('viewmedia/{id}','HomeController@viewmedia');
 
+    Route::get('giftlist','HomeController@giftlist');
+    Route::get('addgift','HomeController@addgift');
+    Route::post('addgift','AdminController@addgift');
+    Route::get('editgift/{id}','HomeController@editgift');
+
+
+
 
 
 
