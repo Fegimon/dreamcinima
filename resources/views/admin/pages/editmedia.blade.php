@@ -80,17 +80,6 @@
 
                   </div>
                </div>
-               <div class="form-group">
-                  <label>Media Image:</label>
-                  <img src="{{ asset('public/upload/media/original/'.$mediars->media_image) }}" width="90px">
-
-                  <div class="input-group">
-                     <div class="input-group-addon">
-                        <i class="fa fa-calendar"></i>
-                     </div>
-                     <input type="file" class="form-control" id="media_image" name="media_image" >
-                  </div>
-               </div>
             
            
             </div>

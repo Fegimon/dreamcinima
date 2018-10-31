@@ -21,7 +21,6 @@
                            <th>Title</th>
                            <th>Description</th>
                            <th>Url</th>
-                           <th>Image</th>
                            <th>Thumb Image</th>
                            <th>Media Type</th>
                            <th>View</th>
@@ -40,7 +39,6 @@
                            <td>{{ $val->media_title}}</td>
                            <td>{{ $val->media_desc}}</td>
                            <td>{{$val->media_url}}</td>
-                           <td><img src="{{ asset('public/upload/media/original/'.$val->media_image) }}" width="40px"></td>
                            <td><img src="{{ asset('public/upload/media/thumbnail/'.$val->media_thumb) }}" width="40px"></td>
                            <td>{{ $val->media_type}}</td>
                            <td><a href="{{ url('admin/viewmedia/'.$val->id) }}"  class="btn btn-gradient-ibiza waves-effect waves-light m-1 .btn-small" > <i class="fa fa-edit"></i> <span>View</span></a></td>
