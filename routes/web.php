@@ -93,6 +93,13 @@ Route::group(['prefix' => 'admin'], function(){
     Route::post('searchsubscription','AdminController@searchsubscription');
     Route::get('viewsubscription/{id}','HomeController@viewsubscription');
 
+    Route::get('addmedia','HomeController@addmedia');
+    Route::get('medialist','HomeController@medialist');
+    Route::post('addmedia','AdminController@addmedia');
+    Route::get('editmedia/{id}','HomeController@editmedia');
+
+
+
 
 
 
