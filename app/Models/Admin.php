@@ -124,4 +124,19 @@ class Admin extends Model
                 ->get();
         return $result;
     }
+    public function saveMedia($input) {        
+        $query = DB::table('dream_media');
+        if ($input['id']) {
+    
+            $input['updated_at'] = Carbon::now()->toDateTimeString();
+            $result = $query->where([['id', $input['id']]])->update($input);
+            return $input['id'];
+            
+        } else {
+        
+            $input['created_at'] = Carbon::now()->toDateTimeString();
+            $result = $query->insertGetId($input);
+            return $result;
+        }
+    }
 }
