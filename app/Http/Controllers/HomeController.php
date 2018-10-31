@@ -267,4 +267,20 @@ class HomeController extends Controller
         $mediars = DB::table('dream_media')->where('id',$id)->first();
         return view('admin.pages.editmedia')->with('mediars',$mediars);
     }
+    public function deletemedia($id)
+    {
+        //dd($id);
+        $media = array(
+           
+            'status'=>0,
+            'updated_at' => date("Y-m-d H:i:s")
+        );
+        $updatemedia=DB::table('dream_media')->where('id', $id)->update($media);
+        return redirect('admin/medialist');
+    }
+    public function viewmedia($id)
+    {
+        $mediars = DB::table('dream_media')->where('id',$id)->first();
+        return view('admin.pages.viewmedia')->with('mediars',$mediars);
+    }
 }

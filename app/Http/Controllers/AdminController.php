@@ -845,7 +845,9 @@ class AdminController extends Controller
                 ->withErrors($data);
             } else { 
                
-                
+                if($thumbimage!='' && $mediaimage!='' )
+                {
+                    dd('both');
                     $mediaInput = array(
                         'id' => $input['id'],
                         'media_title' => $input['media_title'],
@@ -858,6 +860,49 @@ class AdminController extends Controller
                         'showin_home'=>0,
                     
                     );
+                }if($thumbimage=='' && $mediaimage==''){
+                    $mediaInput = array(
+                        'id' => $input['id'],
+                        'media_title' => $input['media_title'],
+                        'media_desc' => $input['media_desc'],
+                        'media_url' => $input['media_url'],
+                        'media_type'=>$input['media_type'],
+                        //'media_thumb'=>$thumbimage,
+                       // 'media_image'=>$mediaimage,
+                        'status'=>1,
+                        'showin_home'=>0,
+                    
+                    );
+                }if($thumbimage==''&& $mediaimage!='' )
+                {
+                    $mediaInput = array(
+                        'id' => $input['id'],
+                        'media_title' => $input['media_title'],
+                        'media_desc' => $input['media_desc'],
+                        'media_url' => $input['media_url'],
+                        'media_type'=>$input['media_type'],
+                        //'media_thumb'=>$thumbimage,
+                        'media_image'=>$mediaimage,
+                        'status'=>1,
+                        'showin_home'=>0,
+                    
+                    );
+                }if($thumbimage!=''&& $mediaimage=='' )
+                {
+                    $mediaInput = array(
+                        'id' => $input['id'],
+                        'media_title' => $input['media_title'],
+                        'media_desc' => $input['media_desc'],
+                        'media_url' => $input['media_url'],
+                        'media_type'=>$input['media_type'],
+                         'media_thumb'=>$thumbimage,
+                        //'media_image'=>$mediaimage,
+                        'status'=>1,
+                        'showin_home'=>0,
+                    
+                    );
+                }
+                
               
                //dd($paymentInput);
                 $video = $this->admin->saveMedia($mediaInput);

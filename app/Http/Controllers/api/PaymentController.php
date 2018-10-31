@@ -20,14 +20,30 @@ class PaymentController extends Controller
          //dd($data);
 
         if ($data != null) {
+			
+			$userid = 0;
+			if(isset($data['ORDERID'])){
+				
+				$arruserdata = explode('D',$data['ORDERID']);
+				//print_r($arruserdata); die;
+				$userid = $arruserdata[0];
+				
+			}
+			
+			$transactionid = '0';
+			if(isset($data['TXNID'])){
+				
+				$transactionid = $data['TXNID'];
+				
+			}
 
             $input = [
                 'id' => isset($data['id']) ? $data['id'] : false,
-                'user_id' => isset($data['user_id']) ? $data['user_id'] : '',
-                'payment_amount' => isset($data['payment_amount']) ? $data['payment_amount'] : '',
-                'payment_method' => isset($data['payment_method']) ? $data['payment_method'] : '',
-                'transaction_id' => isset($data['transaction_id']) ? $data['transaction_id'] : '',
-                'payment_status' => isset($data['payment_status']) ? $data['payment_status'] : '',
+                'user_id' => $userid,
+                'payment_amount' => isset($data['TXNAMOUNT']) ? $data['TXNAMOUNT'] : '',
+                'payment_method' => isset($data['PAYMENTMODE']) ? $data['PAYMENTMODE'] : '',
+                'transaction_id' => $transactionid,
+                'payment_status' => isset($data['STATUS']) ? $data['STATUS'] : '',
             
                 
             ];
@@ -65,7 +81,7 @@ class PaymentController extends Controller
                 $verifyStatus = DB::table('paymentdetails')->where('id',$paymentid)->first();
                 $getUser=DB::table('dream_user')->where('id',$input['user_id'])->first();
                 $paymentstatus=$verifyStatus->payment_status;
-                    if($paymentstatus=='success')
+                    if($paymentstatus=='TXN_SUCCESS')
                     {
                         $status = array(
                             'subscription' =>1,
@@ -88,11 +104,14 @@ class PaymentController extends Controller
                          $paymentlogs=DB::table('payment_logs')->insertGetId($logs);
                         if ($paymentlogs) {
                    
-                            // return Response::json([
-                            //     'status' => 1,
-                            //     'user_id' => $input['user_id'],
-                            //         ], 200);
-                            return redirect('http://dreamcinemas.in/paytm/paytm_succes.php');
+                             return Response::json([
+                                 'status' => 1,
+                                 'user_id' => $input['user_id'],
+                                     ], 200);
+							//header('location: http://dreamcinemas.in/paytm/paytm_succes.php');
+							//die;
+							
+                            //return redirect('http://dreamcinemas.in/paytm/paytm_succes.php');
                             } else {
                                 return Response::json([
                                             'status' => 0,
@@ -100,9 +119,16 @@ class PaymentController extends Controller
                                                 ], 200);
                             }
                     }
-                    if($paymentstatus=='failure')
+                    if($paymentstatus=='TXN_FAILURE')
                     {
-                        return redirect('http://dreamcinemas.in/paytm/paytm_failed.php');
+                        //return redirect('http://dreamcinemas.in/paytm/paytm_failed.php');
+						////header('location: http://dreamcinemas.in/paytm/paytm_failed.php');
+						 return Response::json([
+                                    'status' => 0,
+                                    'message' => ''
+                                              ], 200);
+						
+							//die;
                     } else {
                         return Response::json([
                                     'status' => 0,
