@@ -180,8 +180,6 @@ public $successStatus = 200;
                 'media_url' => isset($data['media_url']) ? $data['media_url'] : '',   
                 'media_thumb' => isset($data['media_thumb']) ? $data['media_thumb'] : '', 
                 'media_image' => isset($data['media_image']) ? $data['media_image'] : '',   
-  
-
             ];
            
            
@@ -235,4 +233,19 @@ public $successStatus = 200;
      
     }
     
+    public function getmedia() 
+    { 
+        
+        $mediavideo = DB::table('dream_media')->where('media_type','video')->where('status',1)->get();
+        $mediaaudio = DB::table('dream_media')->where('media_type','audio')->where('status',1)->get();
+        $mediatrailler = DB::table('dream_media')->where('media_type','trailler')->where('status',1)->get();
+            return Response::json([
+                'status' => 1,
+                'mediavideo'   => $mediavideo,
+                'mediaaudio'=> $mediaaudio,
+                'mediatrailler'=> $mediatrailler,
+            ], 200);
+         
+        
+    }  
 }
