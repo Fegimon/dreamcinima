@@ -307,4 +307,26 @@ class HomeController extends Controller
            
         return view('admin.pages.editgift')->with('giftrs',$giftrs);
     }
+    public function viewgift($id)
+    {
+        $giftrs = DB::table('user_gift')
+                 ->select('user_gift.*','dream_user.name')
+                 ->join('dream_user','dream_user.id','=','user_gift.user_id')       
+                 ->where('user_gift.status',1)
+                 ->where('user_gift.id',$id)
+                 ->first();
+           
+        return view('admin.pages.viewgift')->with('giftrs',$giftrs);
+    }
+    public function deletegift($id)
+    {
+        //dd($id);
+        $gift = array(
+           
+            'status'=>0,
+            'updated_at' => date("Y-m-d H:i:s")
+        );
+        $updategift=DB::table('user_gift')->where('id', $id)->update($gift);
+        return redirect('admin/medialist');
+    }
 }
