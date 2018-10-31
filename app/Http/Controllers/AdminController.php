@@ -12,6 +12,8 @@ use Redirect;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\URL;
+
 
 class AdminController extends Controller
 {
@@ -797,7 +799,12 @@ class AdminController extends Controller
                 'media_url' => isset($data['media_url']) ? $data['media_url'] : '',
                 'media_type' => isset($data['media_type']) ? $data['media_type'] : '',   
                 'media_thumb' => isset($data['media_thumb']) ? $data['media_thumb'] : '', 
+                'showin_home' => isset($data['showin_home']) ? $data['showin_home'] : '', 
+
             ];
+
+            $showin_home = isset($input['showin_home'][0]) ? 1 : 0;
+              
             if ($request->hasFile('media_thumb')) {
                 $image = $request->file('media_thumb')->getClientOriginalExtension();
                 $rand=substr(number_format(time() * rand(), 0, '', ''), 0, 4);
@@ -807,7 +814,14 @@ class AdminController extends Controller
                 $imagePath = $request->file('media_thumb')->move(public_path() . '/upload/media/original', $thumbimage);
                 //print_r($imagePath);die;
                 $img = Image::make($imagePath->getRealPath());
+               
                 $thumbnail = $img->resize(200, 200)->save(public_path() . '/upload/media/thumbnail/' . $thumbimage);   
+                //dd($thumbnail);
+                $uri = $request->url();
+                $url = URL::to("/");
+                $mediathumb = $url.'/public/upload/media/thumbnail/' . $thumbimage;
+                //dd($mediathumb);
+    
             }
 
             else{
@@ -837,9 +851,9 @@ class AdminController extends Controller
                         'media_desc' => $input['media_desc'],
                         'media_url' => $input['media_url'],
                         'media_type'=>$input['media_type'],
-                        'media_thumb'=>$thumbimage,
+                        'media_thumb'=>$mediathumb,
                         'status'=>1,
-                        'showin_home'=>0,
+                        'showin_home'=>$showin_home,
                     );
                 }
                 else
@@ -852,7 +866,8 @@ class AdminController extends Controller
                         'media_type'=>$input['media_type'],
                          //'media_thumb'=>$thumbimage,
                         'status'=>1,
-                        'showin_home'=>0,
+                        'showin_home'=>$showin_home,
+
                     
                     );
                 }

@@ -21,7 +21,7 @@ public $successStatus = 200;
 
     public function login(Request $request)
     {
-        header('Access-Control-Allow-Origin: *');
+        
         $data = $request->all();
         //dd($user);
         $user = DB::table('dream_user')->where('email',$data['email'])->first();
