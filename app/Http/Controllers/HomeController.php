@@ -283,4 +283,28 @@ class HomeController extends Controller
         $mediars = DB::table('dream_media')->where('id',$id)->first();
         return view('admin.pages.viewmedia')->with('mediars',$mediars);
     }
+    public function giftlist()
+    {
+        $giftrs = DB::table('user_gift')
+                 ->select('user_gift.*','dream_user.name')
+                 ->join('dream_user','dream_user.id','=','user_gift.user_id')       
+                 ->where('user_gift.status',1)
+                 ->get();
+        return view('admin.pages.giftlist')->with('giftrs',$giftrs);
+    }
+    public function addgift()
+    {
+        return view('admin.pages.addgift');
+    }
+    public function editgift($id)
+    {
+        $giftrs = DB::table('user_gift')
+                 ->select('user_gift.*','dream_user.name')
+                 ->join('dream_user','dream_user.id','=','user_gift.user_id')       
+                 ->where('user_gift.status',1)
+                 ->where('user_gift.id',$id)
+                 ->first();
+           
+        return view('admin.pages.editgift')->with('giftrs',$giftrs);
+    }
 }

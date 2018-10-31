@@ -186,7 +186,9 @@ class PaymentController extends Controller
                 
             ];
            
-           
+            $verifyUser = DB::table('dream_user')->where('id',$input['user_id'])->first();
+            if(!empty($verifyUser))
+            {
 
             $rules = array(
                 'user_id' => 'required',
@@ -235,10 +237,10 @@ class PaymentController extends Controller
         } else {
             return Response::json([
                         'status' => 0,
-                        'message' => "No data"
+                        'message' => "No User"
             ]);
         }
-     
+     }
     }
     public function getusergift(Request $request) 
     { 

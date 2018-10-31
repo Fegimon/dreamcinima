@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Admin;
+use App\Models\Payment;
 use Validator;
 use Response;
 use DB;
@@ -20,6 +21,7 @@ class AdminController extends Controller
 
     public function __construct() {
         $this->admin = new Admin();
+        $this->payment = new Payment();
     }
 
     public function adduser(Request $request)
@@ -871,8 +873,6 @@ class AdminController extends Controller
                     
                     );
                 }
-                
-              
                //dd($paymentInput);
                 $video = $this->admin->saveMedia($mediaInput);
                 //dd($paymentid);
@@ -892,7 +892,81 @@ class AdminController extends Controller
                         'message' => "No data"
             ]);
         }
-     
+    }
+    public function addgift(Request $request)
+    {
+        $data=$request->all();
+         //dd($data);
+
+        if ($data != null) {
+
+            $input = [
+                'id' => isset($data['id']) ? $data['id'] : false,
+                'user_id' => isset($data['user_id']) ? $data['user_id'] : '',
+                'email' => isset($data['email']) ? $data['email'] : '',
+                'transaction_id' => isset($data['transaction_id']) ? $data['transaction_id'] : '',
+                'address' => isset($data['address']) ? $data['address'] : '',
+                'subcription' => isset($data['subcription']) ? $data['subcription'] : '',
+                'user_preference' => isset($data['user_preference']) ? $data['user_preference'] : '',
+                'delivery_status' => isset($data['delivery_status']) ? $data['delivery_status'] : '',
+                'delivery_comments' => isset($data['delivery_comments']) ? $data['delivery_comments'] : '',
+                'shipping_info' => isset($data['shipping_info']) ? $data['shipping_info'] : '',
+            
+                
+            ];
+           
+            $verifyUser = DB::table('dream_user')->where('id',$input['user_id'])->first();
+            if(!empty($verifyUser))
+            {
+
+            $rules = array(
+                'user_id' => 'required',
+                'email' => 'required',
+                'transaction_id' => 'required',
+               
+            );
+            $checkValid = Validator::make($input, $rules);
+            if ($checkValid->fails()) {
+                $data = Session::flash('error', 'Please Provide All Datas!');
+                return Redirect::back()
+                ->withInput()
+                ->withErrors($data);
+            } else { 
+               
+                $paymentInput = array(
+                    'id' => $input['id'],
+                    'user_id' => $input['user_id'],
+                    'email' => $input['email'],
+                    'address' => $input['address'],
+                    'transaction_id'=>$input['transaction_id'],
+                    'subcription' => $input['subcription'],
+                    'user_preference' => $input['user_preference'],
+                    'delivery_status' => $input['delivery_status'],
+                    'delivery_comments' => $input['delivery_comments'],
+                    'shipping_info' => $input['shipping_info'],
+                    'status'=>1,
+                   
+                );
+               //dd($paymentInput);
+                $paymentid = $this->payment->saveUsergift($paymentInput);
+                //dd($paymentid);
+               if ($paymentid) {
+                   
+                   return redirect('admin/giftlist');
+                } else {
+                    $data = Session::flash('error', 'Please Provide All Datas!');
+                    return Redirect::back()
+                    ->withInput()
+                    ->withErrors($data);
+                }
+            }
+        } else {
+            $data = Session::flash('error', 'No User!');
+            return Redirect::back()
+            ->withInput()
+            ->withErrors($data);
+        }
+     }
     }
  }
 
