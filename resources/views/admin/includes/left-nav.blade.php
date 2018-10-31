@@ -98,6 +98,19 @@
             <li><a href="{{url('admin/subscriptionlist')}}"><i class="fa fa-circle-o"></i>Subscription Details</a></li>
           </ul>
         </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-table"></i>
+            <span>Media Details</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{url('admin/addmedia')}}"><i class="fa fa-circle-o"></i> Add Media</a></li>
+            <li><a href="{{url('admin/medialist')}}"><i class="fa fa-circle-o"></i>Media Details List</a></li>
+          </ul>
+        </li>
         
         <!-- <li class="treeview">
           <a href="#">
