@@ -247,4 +247,18 @@ public $successStatus = 200;
                 'mediatrailler'=> $mediatrailler,
             ], 200);
     }  
+    public function getmediahome() 
+    { 
+        
+        $mediavideo = DB::table('dream_media')->where('media_type','video')->where('showin_home',1)->where('status',1)->get();
+        $mediaaudio = DB::table('dream_media')->where('media_type','audio')->where('showin_home',1)->where('status',1)->get();
+        $mediatrailler = DB::table('dream_media')->where('media_type','trailler')->where('showin_home',1)->where('status',1)->get();
+
+            return Response::json([
+                'status' => 1,
+                'mediavideo'   => $mediavideo,
+                'mediaaudio'=> $mediaaudio,
+                'mediatrailler'=> $mediatrailler,
+            ], 200);
+    }  
 }
