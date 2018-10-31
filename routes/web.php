@@ -97,6 +97,10 @@ Route::group(['prefix' => 'admin'], function(){
     Route::get('medialist','HomeController@medialist');
     Route::post('addmedia','AdminController@addmedia');
     Route::get('editmedia/{id}','HomeController@editmedia');
+    Route::get('deletemedia/{id}','HomeController@deletemedia');
+    Route::get('viewmedia/{id}','HomeController@viewmedia');
+
+
 
 
 
