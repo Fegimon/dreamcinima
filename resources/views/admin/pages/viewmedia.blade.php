@@ -36,7 +36,7 @@
         <!-- /.col -->
         <div class="col-sm-4 invoice-col">
             <h5>Thumb Image</h5>
-            <img src="{{ asset('public/upload/media/thumbnail/'.$mediars->media_thumb) }}" width="90px">
+            <img src="{{$mediars->media_thumb}}" width="90px">
 
         </div>
         <div class="col-md-6 col-sm-6 col-xs-12 gallery">

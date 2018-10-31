@@ -70,7 +70,7 @@
                </div>
                <div class="form-group">
                   <label>Media Thumb:</label>
-                  <img src="{{ asset('public/upload/media/thumbnail/'.$mediars->media_thumb) }}" width="90px">
+                  <img src="{{$mediars->media_thumb}}" width="90px">
 
                   <div class="input-group">
                      <div class="input-group-addon">
@@ -80,7 +80,11 @@
 
                   </div>
                </div>
-            
+               <div class="form-group">
+                  <label>Show in Home:</label>
+                 
+                     <input type="checkbox" name="showin_home"   value="1"> <br>
+               </div>
            
             </div>
           

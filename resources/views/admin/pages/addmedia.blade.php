@@ -75,6 +75,11 @@
 
                   </div>
                </div>
+               <div class="form-group">
+                  <label>Show in Home:</label>
+                 
+                     <input type="checkbox" name="showin_home"   value="1"> <br>
+               </div>
            
             </div>
           
