@@ -783,6 +783,103 @@ class AdminController extends Controller
             ], 200);
         }
     }
+    public function addmedia(Request $request)
+    {
+        $data=$request->all();
+         //dd($data);
+
+        if ($data != null) {
+
+            $input = [
+                'id' => isset($data['id']) ? $data['id'] : false,
+                'media_title' => isset($data['media_title']) ? $data['media_title'] : '',
+                'media_desc' => isset($data['media_desc']) ? $data['media_desc'] : '',
+                'media_url' => isset($data['media_url']) ? $data['media_url'] : '',
+                'media_type' => isset($data['media_type']) ? $data['media_type'] : '',   
+                'media_thumb' => isset($data['media_thumb']) ? $data['media_thumb'] : '', 
+                'media_image' => isset($data['media_image']) ? $data['media_image'] : '',   
+            ];
+            if ($request->hasFile('media_thumb')) {
+                $image = $request->file('media_thumb')->getClientOriginalExtension();
+                $rand=substr(number_format(time() * rand(), 0, '', ''), 0, 4);
+                $thumbimage = 'image' . '-' . $rand . '.' . $image;
+                //print_r($thumbimage);die;
+        
+                $imagePath = $request->file('media_thumb')->move(public_path() . '/upload/media/original', $thumbimage);
+                //print_r($imagePath);die;
+                $img = Image::make($imagePath->getRealPath());
+                $thumbnail = $img->resize(200, 200)->save(public_path() . '/upload/media/thumbnail/' . $thumbimage);   
+            }
+
+            else{
+                $thumbimage= '';
+            } 
+
+            if ($request->hasFile('media_image')) {
+                $image = $request->file('media_image')->getClientOriginalExtension();
+                $rand=substr(number_format(time() * rand(), 0, '', ''), 0, 4);
+                $mediaimage = 'image' . '-' . $rand . '.' . $image;
+                //print_r($thumbimage);die;
+        
+                $imagePath = $request->file('media_image')->move(public_path() . '/upload/media/original', $mediaimage);
+                //print_r($imagePath);die;
+                $img = Image::make($imagePath->getRealPath());
+                //$thumbnail = $img->resize(200, 200)->save(public_path() . '/upload/media/thumbnail/' . $thumbimage);   
+            }
+
+            else{
+                $mediaimage= '';
+            } 
+
+            $rules = array(
+                'media_title' => 'required',
+                'media_desc' => 'required',
+                'media_url' => 'required',
+               
+            );
+            $checkValid = Validator::make($input, $rules);
+            if ($checkValid->fails()) {
+                $data = Session::flash('error', 'Please Provide All Datas!');
+                return Redirect::back()
+                ->withInput()
+                ->withErrors($data);
+            } else { 
+               
+                
+                    $mediaInput = array(
+                        'id' => $input['id'],
+                        'media_title' => $input['media_title'],
+                        'media_desc' => $input['media_desc'],
+                        'media_url' => $input['media_url'],
+                        'media_type'=>$input['media_type'],
+                        'media_thumb'=>$thumbimage,
+                        'media_image'=>$mediaimage,
+                        'status'=>1,
+                        'showin_home'=>0,
+                    
+                    );
+              
+               //dd($paymentInput);
+                $video = $this->admin->saveMedia($mediaInput);
+                //dd($paymentid);
+               if ($video) {
+                   
+                     return redirect('admin/medialist');
+                } else {
+                    return Response::json([
+                                'status' => 0,
+                                'message' => 'Please provide valid details'
+                                    ], 200);
+                }
+            }
+        } else {
+            return Response::json([
+                        'status' => 0,
+                        'message' => "No data"
+            ]);
+        }
+     
+    }
  }
 
     

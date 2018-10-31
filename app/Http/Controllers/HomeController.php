@@ -253,5 +253,18 @@ class HomeController extends Controller
         //dd($paymentrs);
         return view('admin.pages.viewsubscription')->with('paymentrs',$paymentrs);
     }
-
+    public function addmedia()
+    {
+        return view('admin.pages.addmedia');
+    }
+    public function medialist()
+    {
+        $mediars = DB::table('dream_media')->where('status',1)->get();
+        return view('admin.pages.medialist')->with('mediars',$mediars);
+    }
+    public function editmedia($id)
+    {
+        $mediars = DB::table('dream_media')->where('id',$id)->first();
+        return view('admin.pages.editmedia')->with('mediars',$mediars);
+    }
 }

@@ -166,72 +166,7 @@ public $successStatus = 200;
             ], 200);
         }
     }  
-    public function addmedia(Request $request)
-    {
-        $data=$request->all();
-         //dd($data);
-
-        if ($data != null) {
-
-            $input = [
-                'id' => isset($data['id']) ? $data['id'] : false,
-                'media_title' => isset($data['media_title']) ? $data['media_title'] : '',
-                'media_desc' => isset($data['media_desc']) ? $data['media_desc'] : '',
-                'media_url' => isset($data['media_url']) ? $data['media_url'] : '',   
-                'media_thumb' => isset($data['media_thumb']) ? $data['media_thumb'] : '', 
-                'media_image' => isset($data['media_image']) ? $data['media_image'] : '',   
-            ];
-           
-           
-
-            $rules = array(
-                'media_title' => 'required',
-                'media_description' => 'required',
-                'media_url' => 'required',
-               
-            );
-            $checkValid = Validator::make($input, $rules);
-            if ($checkValid->fails()) {
-                return Response::json([
-                            'status' => 0,
-                            'message' => $checkValid->errors()->all()
-                                ], 200);
-            } else { 
-               
-                $videoInput = array(
-                    'id' => $input['id'],
-                    'media_title' => $input['media_title'],
-                    'media_desc' => $input['media_desc'],
-                    'media_url' => $input['media_url'],
-                    'media_thumb'=>$media_thumb,
-                    'media_image'=>$media_thumb,
-                    'status'=>1,
-                   
-                );
-               //dd($paymentInput);
-                $video = $this->admin->saveMedia($videoInput);
-                //dd($paymentid);
-               if ($video) {
-                   
-                return Response::json([
-                    'status' => 'Successfully Added',
-                    'payment_id' => $video
-                        ], 200);
-                } else {
-                    return Response::json([
-                                'status' => 0,
-                                'message' => 'Please provide valid details'
-                                    ], 200);
-                }
-            }
-        } else {
-            return Response::json([
-                        'status' => 0,
-                        'message' => "No data"
-            ]);
-        }
-     
-    }
+   
     
     public function getmedia() 
     { 
