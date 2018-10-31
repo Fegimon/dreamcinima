@@ -104,6 +104,10 @@ Route::group(['prefix' => 'admin'], function(){
     Route::get('addgift','HomeController@addgift');
     Route::post('addgift','AdminController@addgift');
     Route::get('editgift/{id}','HomeController@editgift');
+    Route::get('viewgift/{id}','HomeController@viewgift');
+    Route::get('deletegift/{id}','HomeController@deletegift');
+
+
 
 
 
