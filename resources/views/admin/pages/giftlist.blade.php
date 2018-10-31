@@ -98,7 +98,7 @@
    alert('alert');
     var $this = $(this);
     var id = $this.attr('data-id');
-    var url = "{{ url('admin/deletgift') }}"+"/"+id;
+    var url = "{{ url('admin/deletegift') }}"+"/"+id;
     //alert(url);
     window.location.href = url;
   });

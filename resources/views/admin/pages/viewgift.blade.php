@@ -30,24 +30,21 @@
         <!-- /.col -->
         <div class="col-sm-4 invoice-col">
         {{$giftrs->name}}  <br><br>
-        {{$mediars->media_desc}}   <br><br>
-        {{$mediars->media_type}}   <br><br>
-       
-       
-       
+        {{$giftrs->email}}   <br><br>
+        {{$giftrs->transaction_id}}   <br><br>
+        {{$giftrs->address}}<br><br>
+        {{$giftrs->user_preference}}<br><br>
+        {{$giftrs->subcription}}<br><br>
+        {{$giftrs->delivery_status}}<br><br>
+        {{$giftrs->delivery_comments}}<br><br>
+        {{$giftrs->shipping_info}}<br><br>
         </div>
         <!-- /.col -->
         <div class="col-sm-4 invoice-col">
-            <h5>Thumb Image</h5>
-            <img src="{{$mediars->media_thumb}}" width="90px">
+            
 
         </div>
-        <div class="col-md-6 col-sm-6 col-xs-12 gallery">
-            <div class="embed-responsive embed-responsive-16by9">
-              <iframe class="embed-responsive-item" src="{{$mediars->media_url}}" allowfullscreen></iframe>
-            </div>
-          </div>
-        <!-- /.col -->
+        
       </div>
       <!-- /.row -->
 
@@ -57,7 +54,7 @@
       <!-- this row will not appear when printing -->
       <div class="row no-print">
         <div class="col-xs-12">
-          <a href="{{url('admin/medialist')}}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
+          <a href="{{url('admin/giftlist')}}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
           <!-- <button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment
           </button>
           <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
