@@ -122,7 +122,7 @@ class HomeController extends Controller
         return view('admin.pages.viewuser')->with('userrs',$userrs);
     }
    
-    public function bannercategory()
+    public function moviecategory()
     {
         $bannerrs = DB::table('banner-category')->where('status',1)->get();
         return view('admin.pages.bannerscategory')->with('bannerrs',$bannerrs);
@@ -141,7 +141,7 @@ class HomeController extends Controller
     {
         return view('admin.pages.imagegallery');
     }
-    public function banners()
+    public function movies()
     {
         $category = DB::table('banner-category')->get();
         $banners = DB::table('banners')->where('status',1)->get();
@@ -255,17 +255,32 @@ class HomeController extends Controller
     }
     public function addmedia()
     {
-        return view('admin.pages.addmedia');
+        $movies = DB::table('banners')->get();
+        return view('admin.pages.addmedia')->with('movies',$movies);
     }
     public function medialist()
     {
-        $mediars = DB::table('dream_media')->where('status',1)->get();
+        $searchterm = @$_GET['sterm'];
+        //echo $searchterm; die;
+        if($searchterm){
+            $mediars = DB::table('dream_media')->where('media_type',$searchterm)->orderBy('showby_order', 'ASC')->get();
+        }else{
+            $mediars = DB::table('dream_media')->orderBy('showby_order', 'ASC')->get();
+        }
+        
+        //dd($mediars);
         return view('admin.pages.medialist')->with('mediars',$mediars);
     }
     public function editmedia($id)
     {
-        $mediars = DB::table('dream_media')->where('id',$id)->first();
-        return view('admin.pages.editmedia')->with('mediars',$mediars);
+        $mediars = DB::table('dream_media')
+         ->select('dream_media.*','banners.title')
+         ->join('banners','banners.id','=','dream_media.movie_id')
+        ->where('dream_media.id',$id)
+        ->first();
+        $movies = DB::table('banners')->get();
+
+        return view('admin.pages.editmedia')->with('mediars',$mediars)->with('movies',$movies);
     }
     public function deletemedia($id)
     {

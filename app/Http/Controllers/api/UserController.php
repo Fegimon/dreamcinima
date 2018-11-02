@@ -171,29 +171,58 @@ public $successStatus = 200;
     public function getmedia() 
     { 
         
-        $mediavideo = DB::table('dream_media')->where('media_type','video')->where('status',1)->get();
-        $mediaaudio = DB::table('dream_media')->where('media_type','audio')->where('status',1)->get();
-        $mediatrailler = DB::table('dream_media')->where('media_type','trailler')->where('status',1)->get();
+        $mediavideo = DB::table('dream_media')->where('media_type','video')->where('status',1)->orderBy('showby_order', 'ASC')->get();
+        $mediaaudio = DB::table('dream_media')->where('media_type','audio')->where('status',1)->orderBy('showby_order', 'ASC')->get();
+        $mediatrailler = DB::table('dream_media')->where('media_type','trailler')->where('status',1)->orderBy('showby_order', 'ASC')->get();
+        $medialatest = DB::table('dream_media')->where('media_type','latest')->where('status',1)->orderBy('showby_order', 'ASC')->get();
+
 
             return Response::json([
                 'status' => 1,
                 'mediavideo'   => $mediavideo,
                 'mediaaudio'=> $mediaaudio,
                 'mediatrailler'=> $mediatrailler,
+                'medialatest'=>$medialatest,
             ], 200);
     }  
     public function getmediahome() 
     { 
         
-        $mediavideo = DB::table('dream_media')->where('media_type','video')->where('showin_home',1)->where('status',1)->get();
-        $mediaaudio = DB::table('dream_media')->where('media_type','audio')->where('showin_home',1)->where('status',1)->get();
-        $mediatrailler = DB::table('dream_media')->where('media_type','trailler')->where('showin_home',1)->where('status',1)->get();
+        $mediavideo = DB::table('dream_media')->where('media_type','video')->where('showin_home',1)->orderBy('showby_order', 'ASC')->where('status',1)->get();
+        $mediaaudio = DB::table('dream_media')->where('media_type','audio')->where('showin_home',1)->orderBy('showby_order', 'ASC')->where('status',1)->get();
+        $mediatrailler = DB::table('dream_media')->where('media_type','trailler')->where('showin_home',1)->orderBy('showby_order', 'ASC')->where('status',1)->get();
+        $medialatest = DB::table('dream_media')->where('media_type','latest')->where('status',1)->orderBy('showby_order', 'ASC')->get();
+
 
             return Response::json([
                 'status' => 1,
                 'mediavideo'   => $mediavideo,
                 'mediaaudio'=> $mediaaudio,
                 'mediatrailler'=> $mediatrailler,
+                'medialatest'=>$medialatest,
+
+            ], 200);
+    } 
+    
+    public function getmediabyCategory(Request $request) 
+    { 
+        $id = $request->movie_id;
+
+        $movie = DB::table('banners')->where('id',$id)->first();
+        
+        $mediavideo = DB::table('dream_media')->where('media_type','video')->where('movie_id',$id)->where('status',1)->orderBy('showby_order', 'ASC')->get();
+        $mediaaudio = DB::table('dream_media')->where('media_type','audio')->where('movie_id',$id)->where('status',1)->orderBy('showby_order', 'ASC')->get();
+        $mediatrailler = DB::table('dream_media')->where('media_type','trailler')->where('movie_id',$id)->where('status',1)->orderBy('showby_order', 'ASC')->get();
+        $medialatest = DB::table('dream_media')->where('media_type','latest')->where('movie_id',$id)->where('status',1)->orderBy('showby_order', 'ASC')->get();
+
+
+            return Response::json([
+                'status' => 1,
+                'movie'=>$movie,
+                'mediavideo'   => $mediavideo,
+                'mediaaudio'=> $mediaaudio,
+                'mediatrailler'=> $mediatrailler,
+                'medialatest'=>$medialatest,
             ], 200);
     }  
 }

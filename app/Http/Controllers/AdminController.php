@@ -11,6 +11,7 @@ use DB;
 use Session;
 use Redirect;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\URL;
@@ -308,7 +309,7 @@ class AdminController extends Controller
               
                if ($bannerid) {
                    
-                return redirect('admin/bannercategory');
+                return redirect('admin/moviecategory');
                 } else {
                     // return Response::json([
                     //             'status' => 0,
@@ -355,10 +356,10 @@ class AdminController extends Controller
         $updatecategory=DB::table('banner-category')->where('id', $id)->update($category);
 
         if($updatecategory){
-            return redirect('admin/bannercategory ');
+            return redirect('admin/moviecategory ');
         }
         else{
-            return redirect('admin/bannercategory');
+            return redirect('admin/moviecategory');
         }
     }
     public function addvideo(Request $request)
@@ -494,6 +495,8 @@ class AdminController extends Controller
                 $imagePath = $request->file('image')->move(public_path() . '/upload/banner', $imageName);
                 //print_r($imagePath);die;
                 $img = Image::make($imagePath->getRealPath());
+                $url = URL::to("/");
+                $movieimage = $url.'/public/upload/banner/' . $imageName;
         
                 
             }
@@ -523,7 +526,7 @@ class AdminController extends Controller
                     'id' => $input['id'],
                     'title' => $input['title'],
                     'category' => $input['category'],
-                    'image'=>$imageName,
+                    'image'=>$movieimage,
                     'status'=>1
                 );
             }else{
@@ -538,7 +541,7 @@ class AdminController extends Controller
                 $bannerid = $this->admin->savebanner($dataInput);
                if ($bannerid) {
                    
-                return redirect('admin/banners');
+                return redirect('admin/movies');
                 } else {
                     // return Response::json([
                     //             'status' => 0,
@@ -583,10 +586,10 @@ class AdminController extends Controller
         $updatecategory=DB::table('banners')->where('id', $id)->update($category);
 
         if($updatecategory){
-            return redirect('admin/banners ');
+            return redirect('admin/movies ');
         }
         else{
-            return redirect('admin/banners');
+            return redirect('admin/movies');
         }
     }
 
@@ -802,10 +805,15 @@ class AdminController extends Controller
                 'media_type' => isset($data['media_type']) ? $data['media_type'] : '',   
                 'media_thumb' => isset($data['media_thumb']) ? $data['media_thumb'] : '', 
                 'showin_home' => isset($data['showin_home']) ? $data['showin_home'] : '', 
+                'status' => isset($data['status']) ? $data['status'] : '',
+                'movie_id' => isset($data['movie_id']) ? $data['movie_id'] : '', 
+ 
+
 
             ];
 
             $showin_home = isset($input['showin_home'][0]) ? 1 : 0;
+            $status = isset($input['status'][0]) ? 1 : 0;
               
             if ($request->hasFile('media_thumb')) {
                 $image = $request->file('media_thumb')->getClientOriginalExtension();
@@ -822,7 +830,8 @@ class AdminController extends Controller
                 $uri = $request->url();
                 $url = URL::to("/");
                 $mediathumb = $url.'/public/upload/media/thumbnail/' . $thumbimage;
-                //dd($mediathumb);
+                $originalimage=$url.'/public/upload/media/original/'. $thumbimage;
+                //dd($originalimage);
     
             }
 
@@ -854,8 +863,10 @@ class AdminController extends Controller
                         'media_url' => $input['media_url'],
                         'media_type'=>$input['media_type'],
                         'media_thumb'=>$mediathumb,
-                        'status'=>1,
+                        'original_image'=>$originalimage,
+                        'status'=>$status,
                         'showin_home'=>$showin_home,
+                        'movie_id'=>$input['movie_id'],
                     );
                 }
                 else
@@ -867,8 +878,9 @@ class AdminController extends Controller
                         'media_url' => $input['media_url'],
                         'media_type'=>$input['media_type'],
                          //'media_thumb'=>$thumbimage,
-                        'status'=>1,
+                         'status'=>$status,
                         'showin_home'=>$showin_home,
+                        'movie_id'=>$input['movie_id'],
 
                     
                     );
@@ -967,6 +979,74 @@ class AdminController extends Controller
             ->withErrors($data);
         }
      }
+    }
+
+    public function filterCategory($select)
+    {
+        
+        //dd($select);
+        
+        $categoryrs = DB::table('dream_media')->where('media_type',$select)->get();
+        //dd($categoryrs);
+ 
+         if ($categoryrs) {
+             return Response::json([
+                 'status' => 1,
+                 'data'   => $categoryrs,
+             ], 200);} else {
+             return Response::json([
+                 'status'  => 0,
+                 'message' => 'category not fount',
+             ], 200);
+         }
+    }
+
+    public function addorder($value,$id)
+    {
+        $data = $value;
+
+        $add = array(
+           'showby_order' =>$data,
+           'updated_at'=>Carbon::now()->toDateTimeString(),
+        );
+        $addorder = DB::table('dream_media')->where('id',$id)->update($add);
+
+        if ($addorder) {
+            return Response::json([
+                'status' => 1,
+                'data'   => $addorder,
+            ], 200);} else {
+            return Response::json([
+                'status'  => 0,
+                'message' => 'Order not fount',
+            ], 200);
+        }
+
+    }
+
+    public function updatestatus($value,$id)
+    {
+        
+        $data = $value;
+        //dd($data);
+        $add = array(
+           'status' =>$data,
+           'updated_at'=>Carbon::now()->toDateTimeString(),
+        );
+        //dd($add);
+        $updatestatus = DB::table('dream_media')->where('id',$id)->update($add);
+
+        if ($updatestatus) {
+            return Response::json([
+                'status' => 1,
+                'data'   => $updatestatus,
+            ], 200);} else {
+            return Response::json([
+                'status'  => 0,
+                'message' => 'Order not fount',
+            ], 200);
+        }
+
     }
  }
 
