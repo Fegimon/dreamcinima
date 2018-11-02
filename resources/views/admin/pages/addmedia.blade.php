@@ -61,6 +61,22 @@
                         <option value="audio">Audio</option>
                         <option value="video">Video</option>
                         <option value="trailler">Trailler</option>
+                        <option value="latest">Latest</option>
+
+                     </select>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label>Movie Name:</label>
+                  <div class="input-group">
+                     <div class="input-group-addon">
+                        <i class="fa fa-phone"></i>
+                     </div>
+                     <select class="form-control select2 accordion--form__text required" id="movie_id" name="movie_id" required>
+                        <option selected="selected">Select </option>
+                        @foreach ($movies as $val)
+                        <option value="{{$val->id}}">{{$val->title}}</option>
+                        @endforeach
 
                      </select>
                   </div>
@@ -82,7 +98,13 @@
                </div>
            
             </div>
-          
+            
+            <div class="form-group">
+                  <label>Status:</label>
+                 
+                     <input type="checkbox" name="status"  value="1"  > <br>
+               </div>
+               </div>
             <button type="submit"  class="btn btn-block btn-primary">Submit</button>
 
          </div>

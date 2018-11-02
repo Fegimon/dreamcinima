@@ -75,14 +75,14 @@
         <li class="treeview">
           <a href="#">
             <i class="fa fa-table"></i>
-            <span>Banners</span>
+            <span>Movies</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{url('admin/bannercategory')}}"><i class="fa fa-circle-o"></i> Banners Category</a></li>
-            <li><a href="{{url('admin/banners')}}"><i class="fa fa-circle-o"></i>Banners</a></li>
+            <li><a href="{{url('admin/moviecategory')}}"><i class="fa fa-circle-o"></i> Movie Category</a></li>
+            <li><a href="{{url('admin/movies')}}"><i class="fa fa-circle-o"></i>Add Movies</a></li>
           </ul>
         </li>
         <li class="treeview">

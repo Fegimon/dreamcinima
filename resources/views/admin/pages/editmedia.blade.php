@@ -64,9 +64,28 @@
                         <option value="audio">Audio</option>
                         <option value="video">Video</option>
                         <option value="trailler">Trailler</option>
+                        <option value="latest">Latest</option>
+
 
                      </select>
                   </div>
+               </div>
+               <div class="form-group">
+                  <label>Movie Name:</label>
+                  <div class="input-group">
+                     <div class="input-group-addon">
+                        <i class="fa fa-phone"></i>
+                     </div>
+                     <select class="form-control select2 accordion--form__text required" id="movie_id" name="movie_id" required>
+                        <option selected="selected">Select </option>
+                        <option value="<?php echo $mediars->movie_id;?>" <?php echo ($mediars->movie_id) ? ' selected="selected"' : '';?>><?php echo $mediars->title;?></option>
+
+                        @foreach ($movies as $val)
+                        <option value="{{$val->id}}">{{$val->title}}</option>
+                        @endforeach
+
+                     </select>
+                   </div>
                </div>
                <div class="form-group">
                   <label>Media Thumb:</label>
@@ -83,7 +102,12 @@
                <div class="form-group">
                   <label>Show in Home:</label>
                  
-                     <input type="checkbox" name="showin_home"   value="1"> <br>
+                     <input type="checkbox" name="showin_home"  value="1" <?php echo ($mediars->showin_home==1 ? 'checked' : '');?> > <br>
+               </div>
+               <div class="form-group">
+                  <label>Status:</label>
+                 
+                     <input type="checkbox" name="status"  value="1" <?php echo ($mediars->status==1 ? 'checked' : '');?> > <br>
                </div>
            
             </div>

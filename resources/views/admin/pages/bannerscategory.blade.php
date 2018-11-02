@@ -5,7 +5,7 @@
         <div class="col-xs-12">
     <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Banners Category</h3>
+              <h3 class="box-title">Movies Category</h3>
                 <div class="box-tools pull-right">
                   <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myModal" ><b>ADD</b><i class="fa fa-user-plus"></i></button>
                 </div>
@@ -69,7 +69,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Add Banner Category</h4>
+          <h4 class="modal-title">Add Movies Category</h4>
         </div>
         <div class="modal-body">
         <form action="{{url('admin/addbannercategory')}}" method="post" id="register">
@@ -80,7 +80,7 @@
                      <div class="input-group-addon">
                         <i class="fa fa-user"></i>
                      </div>
-                     <input type="text" class="form-control" id="title" name="name" data-mask placeholder="Banner Title" required>
+                     <input type="text" class="form-control" id="title" name="name" data-mask placeholder="Movie Category" required>
 
                      </div>
                </div>
@@ -104,7 +104,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Edit Banner Category</h4>
+          <h4 class="modal-title">Edit Movies Category</h4>
         </div>
         <div class="modal-body">
         <form action="{{url('admin/addbannercategory')}}" method="post" id="register">
