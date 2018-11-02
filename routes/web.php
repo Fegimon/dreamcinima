@@ -58,7 +58,7 @@ Route::group(['prefix' => 'admin'], function(){
     Route::get('viewvideo/{id}','HomeController@viewvideo');
 
 
-    Route::get('bannercategory','HomeController@bannercategory');
+    Route::get('moviecategory','HomeController@moviecategory');
     Route::post('addbannercategory','AdminController@addbannercategory');
     Route::get('editbanner/{id}','AdminController@editbanner');
     Route::get('deletbanner/{id}','AdminController@deletbanner');
@@ -72,7 +72,7 @@ Route::group(['prefix' => 'admin'], function(){
     Route::get('deletevideo/{id}','HomeController@deletevideo');
 
 
-    Route::get('banners','HomeController@banners');
+    Route::get('movies','HomeController@movies');
     Route::post('addbanners','AdminController@addbanners');
     Route::get('bannerlist','HomeController@bannerlist');
     Route::get('banneredit/{id}','AdminController@banneredit');
@@ -106,6 +106,13 @@ Route::group(['prefix' => 'admin'], function(){
     Route::get('editgift/{id}','HomeController@editgift');
     Route::get('viewgift/{id}','HomeController@viewgift');
     Route::get('deletegift/{id}','HomeController@deletegift');
+
+    Route::get('filterCategory/{select}','AdminController@filterCategory');
+    Route::get('addorder/{value}/{id}','AdminController@addorder');
+    Route::get('updatestatus/{value}/{id}','AdminController@updatestatus');
+
+
+
 
 
 

@@ -44,6 +44,7 @@ Route::group(['prefix' => 'admin'], function(){
     Route::post('getusergift', 'api\PaymentController@getusergift');
     Route::get('getmedia', 'api\UserController@getmedia');
     Route::get('getmediahome', 'api\UserController@getmediahome');
+    Route::post('getmediabyCategory', 'api\UserController@getmediabyCategory');
 
 
 Route::group(['middleware' => 'auth:api'], function(){
