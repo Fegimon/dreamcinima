@@ -9,16 +9,12 @@ use DB;
 use Response;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
-
-
 class UserController extends Controller 
 {
 public $successStatus = 200;
-
         public function __construct() {
            // $this->register = new Register();
         }
-
     public function login(Request $request)
     {
         
@@ -42,7 +38,6 @@ public $successStatus = 200;
     { 
         //dd('user');
         $input = $request->all(); 
-
         $verifyUser = DB::table('dream_user')->where('email',$input['email'])->where('phone',$input['phone'])->first();
         if(empty($verifyUser))
         {
@@ -71,21 +66,18 @@ public $successStatus = 200;
             return response()->json(['regstatus' => 'success','userdata' => $user], $this-> successStatus);
         } else {
             return response()->json(['regstatus' => 'failed','userdata' => ''], $this-> successStatus);
-
         }
     }else{
         return response()->json(['regstatus' => 'User Already Registered','userdata' => ''], $this-> successStatus);
     }
          
     }
-
     public function details() 
     { 
         $user = DB::table('dream_user')->get(); 
         //dd($user);
         return response()->json(['success' => $user], $this-> successStatus); 
     } 
-
     public function getcategory() 
     { 
         $category = DB::table('category')->get(); 
@@ -175,8 +167,6 @@ public $successStatus = 200;
         $mediaaudio = DB::table('dream_media')->where('media_type','audio')->where('status',1)->orderBy('showby_order', 'ASC')->get();
         $mediatrailler = DB::table('dream_media')->where('media_type','trailler')->where('status',1)->orderBy('showby_order', 'ASC')->get();
         $medialatest = DB::table('dream_media')->where('media_type','latest')->where('status',1)->orderBy('showby_order', 'ASC')->get();
-
-
             return Response::json([
                 'status' => 1,
                 'mediavideo'   => $mediavideo,
@@ -192,30 +182,24 @@ public $successStatus = 200;
         $mediaaudio = DB::table('dream_media')->where('media_type','audio')->where('showin_home',1)->orderBy('showby_order', 'ASC')->where('status',1)->get();
         $mediatrailler = DB::table('dream_media')->where('media_type','trailler')->where('showin_home',1)->orderBy('showby_order', 'ASC')->where('status',1)->get();
         $medialatest = DB::table('dream_media')->where('media_type','latest')->where('status',1)->orderBy('showby_order', 'ASC')->get();
-
-
             return Response::json([
                 'status' => 1,
                 'mediavideo'   => $mediavideo,
                 'mediaaudio'=> $mediaaudio,
                 'mediatrailler'=> $mediatrailler,
                 'medialatest'=>$medialatest,
-
             ], 200);
     } 
     
     public function getmediabyCategory(Request $request) 
     { 
         $id = $request->movie_id;
-
         $movie = DB::table('banners')->where('id',$id)->first();
         
         $mediavideo = DB::table('dream_media')->where('media_type','video')->where('movie_id',$id)->where('status',1)->orderBy('showby_order', 'ASC')->get();
         $mediaaudio = DB::table('dream_media')->where('media_type','audio')->where('movie_id',$id)->where('status',1)->orderBy('showby_order', 'ASC')->get();
         $mediatrailler = DB::table('dream_media')->where('media_type','trailler')->where('movie_id',$id)->where('status',1)->orderBy('showby_order', 'ASC')->get();
         $medialatest = DB::table('dream_media')->where('media_type','latest')->where('movie_id',$id)->where('status',1)->orderBy('showby_order', 'ASC')->get();
-
-
             return Response::json([
                 'status' => 1,
                 'movie'=>$movie,
@@ -224,5 +208,20 @@ public $successStatus = 200;
                 'mediatrailler'=> $mediatrailler,
                 'medialatest'=>$medialatest,
             ], 200);
-    }  
+    } 
+    
+    public function getmovie() 
+    { 
+        $video = DB::table('banners')->get(); 
+        if ($video) {
+            return Response::json([
+                'status' => 1,
+                'data'   => $video,
+            ], 200);} else {
+            return Response::json([
+                'status'  => 0,
+                'message' => 'video not fount',
+            ], 200);
+        }
+    } 
 }

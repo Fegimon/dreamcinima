@@ -480,6 +480,7 @@ class AdminController extends Controller
                 'id' => isset($data['id']) ? $data['id'] : false,
                 'title' => isset($data['title']) ? $data['title'] : '',
                 'category' => isset($data['category']) ? $data['category'] : '',
+                'movie_url' => isset($data['movie_url']) ? $data['movie_url'] : '',
                 'image' => isset($data['image']) ? $data['image'] : '',
                 'status' => isset($data['status']) ? $data['status'] : '',
             
@@ -526,6 +527,7 @@ class AdminController extends Controller
                     'id' => $input['id'],
                     'title' => $input['title'],
                     'category' => $input['category'],
+                    'movie_url'=>$input['movie_url'],
                     'image'=>$movieimage,
                     'status'=>1
                 );
@@ -534,6 +536,7 @@ class AdminController extends Controller
                     'id' => $input['id'],
                     'title' => $input['title'],
                     'category' => $input['category'],
+                    'movie_url'=>$input['movie_url'],
                    // 'image'=>$imageName,
                     'status'=>1
                 );
