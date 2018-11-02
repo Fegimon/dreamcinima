@@ -20,6 +20,7 @@
                           <th>S.No</th>
                            <th>Title</th>
                            <th>Category</th>
+                           <th>Movie Url</th>
                            <th>Image</th>
                            <!-- <th>View</th> -->
                            <th>Edit </th>
@@ -36,9 +37,16 @@
                        <td>{{++$i}}</td>
                        <td>{{ $val->title}}</td>
                        <td>{{ $val->category}}</td>
+                       @if($val->movie_url!='')
+                       <td>{{ $val->movie_url}}</td>
+                       @endif
+                       @if($val->movie_url=='')
+                       <td></td>
+                       @endif
+                       
                        <td><img src="{{ $val->image }}" width="40px"></td>
                      
-                    
+                      
                        <!-- <td><a href="{{ url('admin/viewuser/'.$val->id) }}"  class="btn btn-gradient-ibiza waves-effect waves-light m-1 .btn-small" > <i class="fa fa-edit"></i> <span>View</span></a></td> -->
                        <td><a href="#"  id="edit" data-id="{{$val->id}}" class="btn btn-gradient-ibiza waves-effect waves-light m-1 .btn-small" data-toggle="modal" data-target="#myModal1" > <i class="fa fa-edit"></i> <span>Edit</span></a></td>
                        <td><button type="button" class="btn btn-gradient-forest waves-effect waves-light m-1 delete" data-id="{{ $val->id }}" > <i class="fa fa fa-trash-o"></i> <span>Delete</span> </button></td>
@@ -94,6 +102,16 @@
                         <option value="{{$val->name}}">{{$val->name}}</option>
                         @endforeach
                      </select>
+
+                     </div>
+               </div>
+               <div class="form-group">
+                  <label>Movie Url</label>
+                  <div class="input-group">
+                     <div class="input-group-addon">
+                        <i class="fa fa-user"></i>
+                     </div>
+                     <input type="text" class="form-control" name="movie_url" data-mask placeholder="Movie Title">
 
                      </div>
                </div>
@@ -163,6 +181,16 @@
                      </select>                    </div>
             </div>
             <div class="form-group">
+                  <label>Movie Url</label>
+                  <div class="input-group">
+                     <div class="input-group-addon">
+                        <i class="fa fa-user"></i>
+                     </div>
+                     <input type="text" class="form-control" name="movie_url" id="movie_url" data-mask placeholder="Movie Title" required>
+
+                     </div>
+               </div>
+            <div class="form-group">
                   <label> Image</label>
                   <div class="input-group">
                      <div class="input-group-addon">
@@ -231,6 +259,7 @@
             $('#id').val(res.data.id);
             $('#title').val(res.data.title);
             $('#category').val(res.data.category);
+            $('#movie_url').val(res.data.movie_url);
             $('#image').val(res.data.image);
             $('#mymodal1').modal('show');
         }
