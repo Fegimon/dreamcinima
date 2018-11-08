@@ -45,7 +45,11 @@ Route::group(['prefix' => 'admin'], function(){
     Route::get('getmedia', 'api\UserController@getmedia');
     Route::get('getmediahome', 'api\UserController@getmediahome');
     Route::post('getmediabyCategory', 'api\UserController@getmediabyCategory');
-    Route::get('getmovie', 'api\UserController@getmovie');
+	
+	
+	Route::get('getappupdate', 'api\UserController@getappupdatenotify');
+	
+	Route::get('getsubsplans', 'api\UserController@getsubplansdetails');
 
 
 Route::group(['middleware' => 'auth:api'], function(){
