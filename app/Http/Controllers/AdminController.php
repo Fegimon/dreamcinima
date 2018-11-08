@@ -482,11 +482,16 @@ class AdminController extends Controller
                 'category' => isset($data['category']) ? $data['category'] : '',
                 'movie_url' => isset($data['movie_url']) ? $data['movie_url'] : '',
                 'image' => isset($data['image']) ? $data['image'] : '',
+                'release_info' => isset($data['release_info']) ? $data['release_info'] : '',
+                'release_status' => isset($data['release_status']) ? $data['release_status'] : '',
                 'status' => isset($data['status']) ? $data['status'] : '',
             
                
             ];
             //dd($input);
+            $release_status = isset($input['release_status'][0]) ? 1 : 0;
+            $status = isset($input['status'][0]) ? 1 : 0;
+
             if ($request->hasFile('image')) {
                 $image = $request->file('image')->getClientOriginalExtension();
                 $rand=substr(number_format(time() * rand(), 0, '', ''), 0, 4);
@@ -498,12 +503,12 @@ class AdminController extends Controller
                 $img = Image::make($imagePath->getRealPath());
                 $url = URL::to("/");
                 $movieimage = $url.'/public/upload/banner/' . $imageName;
-        
+              //dd($movieimage);
                 
             }
 
             else{
-                $imageName= '';
+                $movieimage= '';
             } 
             $rules = array(
                 'title' => 'required',
@@ -522,14 +527,16 @@ class AdminController extends Controller
                 ->withInput()
                 ->withErrors($data);
             } else { 
-                if($imageName!=''){
+                if($movieimage!=''){
                 $dataInput = array(
                     'id' => $input['id'],
                     'title' => $input['title'],
                     'category' => $input['category'],
                     'movie_url'=>$input['movie_url'],
                     'image'=>$movieimage,
-                    'status'=>1
+                    'release_status'=>$release_status,
+                    'release_info'=>$input['release_info'],
+                    'status'=>$status
                 );
             }else{
                 $dataInput = array(
@@ -537,10 +544,12 @@ class AdminController extends Controller
                     'title' => $input['title'],
                     'category' => $input['category'],
                     'movie_url'=>$input['movie_url'],
-                   // 'image'=>$imageName,
-                    'status'=>1
+                    'release_status'=>$release_status,
+                    'release_info'=>$input['release_info'],
+                    'status'=>$status
                 );
             }
+            //dd($dataInput);
                 $bannerid = $this->admin->savebanner($dataInput);
                if ($bannerid) {
                    

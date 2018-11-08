@@ -144,7 +144,7 @@ class HomeController extends Controller
     public function movies()
     {
         $category = DB::table('banner-category')->get();
-        $banners = DB::table('banners')->where('status',1)->get();
+        $banners = DB::table('banners')->get();
 
         return view('admin.pages.banners')->with('category',$category)->with('banners',$banners);
     }
