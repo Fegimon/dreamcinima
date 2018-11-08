@@ -29,7 +29,7 @@
                 </thead>
                 <tbody>
                 <?php
-                           $i=0;
+                     $i=0;
                     ?>
                 @foreach ($userrs as $val)
                     

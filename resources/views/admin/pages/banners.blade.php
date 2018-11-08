@@ -1,5 +1,12 @@
 @extends('admin.default')
 @section('content')
+
+<style>
+img {
+    vertical-align: middle;
+    width: 90px;
+}
+</style>
 <section class="content">
 <div class="row">
         <div class="col-xs-12">
@@ -127,6 +134,21 @@
                      </div>
                </div>
                <div class="form-group">
+                  <label>Release Info</label>
+                  <div class="input-group">
+                     <div class="input-group-addon">
+                        <i class="fa fa-user"></i>
+                     </div>
+                     <input type="text" class="form-control"  name="release_info"  placeholder="Release Info">
+
+                     </div>
+               </div>
+               <div class="form-group">
+                  <label>Release Status:</label>
+                 
+                     <input type="checkbox" name="release_status"  value="1"> <br>
+               </div>
+               <div class="form-group">
                   <label>Active:</label>
                  
                      <input type="checkbox" name="status"  value="1"> <br>
@@ -154,7 +176,7 @@
           <h4 class="modal-title">Edit Movies Category</h4>
         </div>
         <div class="modal-body">
-        <form action="{{url('admin/addbanners')}}" method="post" id="register">
+        <form action="{{url('admin/addbanners')}}" method="post" id="register" enctype="multipart/form-data">
         {{csrf_field() }}
         <input type="hidden" class="form-control" name="id" id="id" >
 
@@ -186,20 +208,41 @@
                      <div class="input-group-addon">
                         <i class="fa fa-user"></i>
                      </div>
-                     <input type="text" class="form-control" name="movie_url" id="movie_url" data-mask placeholder="Movie Title" required>
+                     <input type="text" class="form-control" name="movie_url" id="movie_url" data-mask placeholder="Movie Title" >
 
                      </div>
                </div>
             <div class="form-group">
                   <label> Image</label>
+                  <div id="image"></div> 
                   <div class="input-group">
                      <div class="input-group-addon">
                         <i class="fa fa-user"></i>
                      </div>
-                     <input type="file" class="form-control" id="image" name="image" data-mask placeholder="Banner Title" >
+                   
+                     <input type="file" class="form-control"  id="image" name="image" data-mask placeholder="Banner Title" >
                     </div>
             </div>
-       
+            <div class="form-group">
+                  <label>Release Info</label>
+                  <div class="input-group">
+                     <div class="input-group-addon">
+                        <i class="fa fa-user"></i>
+                     </div>
+                     <input type="text" class="form-control" name="release_info" id="release_info"  >
+                      
+                     </div>
+               </div>
+               <div class="form-group">
+                  <label>Release Status:</label>
+                 
+                     <input type="checkbox" id="release_status" name="release_status"  value="1"> <br>
+               </div>
+               <div class="form-group">
+                  <label>Active:</label>
+                 
+                     <input type="checkbox" id="status" name="status"  value="1"> <br>
+               </div>
         </div>
         
                
@@ -261,6 +304,19 @@
             $('#category').val(res.data.category);
             $('#movie_url').val(res.data.movie_url);
             $('#image').val(res.data.image);
+            $('#release_info').val(res.data.release_info);
+            //$('#image').attr('src',res.data.image);
+            $("#image").html("<img src='"+res.data.image+"' width:20px />")
+            if(res.data.release_status==1){
+              $('#release_status').prop('checked', true);
+            }else{
+              $('#release_status').prop('checked', false);
+            }
+            if(res.data.status==1){
+              $('#status').prop('checked', true);
+            }else{
+              $('#status').prop('checked', false);
+            }
             $('#mymodal1').modal('show');
         }
     });
