@@ -49,8 +49,11 @@ Route::group(['prefix' => 'admin'], function(){
 	
 	Route::get('getappupdate', 'api\UserController@getappupdatenotify');
 	
-	Route::get('getsubsplans', 'api\UserController@getsubplansdetails');
+    Route::get('getsubsplans', 'api\UserController@getsubplansdetails');
+    
+    Route::get('getmovies', 'api\UserController@getmovies');
 
+    Route::post('updateexpdate', 'api\PaymentController@updateexpdate');
 
 Route::group(['middleware' => 'auth:api'], function(){
 // Route::post('login', 'api\UserController@login');
