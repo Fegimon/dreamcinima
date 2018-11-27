@@ -250,5 +250,14 @@ public $successStatus = 200;
             ], 200);
     }
 
-	
+    public function getmovies()
+    {
+        $movies = DB::table('banners')->where('status',1)->get();
+
+        return Response::json([
+           // 'status' => 1,
+            'movies'=>$movies,
+        ], 200);
+
+    }
 }

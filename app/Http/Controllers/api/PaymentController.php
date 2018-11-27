@@ -21,33 +21,35 @@ class PaymentController extends Controller
 
         if ($data != null) {
 			
-			$userid = 0;
-			if(isset($data['ORDERID'])){
+			// $userid = 0;
+			// if(isset($data['ORDERID'])){
 				
-				$arruserdata = explode('D',$data['ORDERID']);
-				//print_r($arruserdata); die;
-				$userid = $arruserdata[0];
+			// 	$arruserdata = explode('D',$data['ORDERID']);
+			// 	//print_r($arruserdata); die;
+			// 	$userid = $arruserdata[0];
 				
-			}
+			// }
 			
-			$transactionid = '0';
-			if(isset($data['TXNID'])){
+			// $transactionid = '0';
+			// if(isset($data['TXNID'])){
 				
-				$transactionid = $data['TXNID'];
+			// 	$transactionid = $data['TXNID'];
 				
-			}
+			// }
 
             $input = [
                 'id' => isset($data['id']) ? $data['id'] : false,
-                'user_id' => $userid,
-                'payment_amount' => isset($data['TXNAMOUNT']) ? $data['TXNAMOUNT'] : '',
-                'payment_method' => isset($data['PAYMENTMODE']) ? $data['PAYMENTMODE'] : '',
-                'transaction_id' => $transactionid,
-                'payment_status' => isset($data['STATUS']) ? $data['STATUS'] : '',
+                'user_id' => isset($data['user_id']) ? $data['user_id'] : '',
+                'payment_amount' => isset($data['payment_amount']) ? $data['payment_amount'] : '',
+                'payment_method' => isset($data['payment_method']) ? $data['payment_method'] : '',
+                'transaction_id' => isset($data['transaction_id']) ? $data['transaction_id'] : '',
+                'payment_status' => isset($data['payment_status']) ? $data['payment_status'] : '',
             
                 
             ];
+            
             $verifyUser = DB::table('dream_user')->where('id',$input['user_id'])->first();
+            //dd($verifyUser);
             if(!empty($verifyUser))
             {
 
@@ -257,4 +259,28 @@ class PaymentController extends Controller
             ], 200);
         }
     }
+
+    public function updateexpdate(Request $request) 
+    { 
+        $date=Carbon::now()->toDateString();
+        $expdate = DB::table('dream_user')->where('subscribe_expiredate','<',$date)->count();
+        //dd($expdate);
+        $status = array(
+            'subscription' =>0,
+            'updated_at'=>Carbon::now()->toDateTimeString(),
+        );
+        $updatestatus = DB::table('dream_user')->where('subscribe_expiredate','<',$date)->update($status);
+        if ($updatestatus) {
+            return Response::json([
+                'status' => 'Successfully Updated',
+                'data'   => $updatestatus,
+                 'count'=>$expdate
+            ], 200);} else {
+            return Response::json([
+                'status'  => 0,
+                'message' => 'Expiredate   not fount',
+            ], 200);
+        }
+    }
+
 }
