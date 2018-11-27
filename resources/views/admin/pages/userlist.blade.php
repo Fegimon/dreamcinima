@@ -21,6 +21,7 @@
                            <th>Email</th>
                            <th>Phone</th>
                            <th>Address</th>
+                           <th>Expire Date</th>
                            <th>Subscription</th>
                            <th>View</th>
                            <th>Edit </th>
@@ -40,6 +41,7 @@
                            <td>{{ $val->email}}</td>
                            <td>{{ $val->phone}}</td>
                            <td>{{ $val->address}}</td>
+                           <td>{{ $val->subscribe_expiredate}}</td>
                            <td>{{ $val->subscription}}</td>
                         
                            <td><a href="{{ url('admin/viewuser/'.$val->id) }}"  class="btn btn-gradient-ibiza waves-effect waves-light m-1 .btn-small" > <i class="fa fa-edit"></i> <span>View</span></a></td>
